@@ -23,7 +23,6 @@ class TableViewCell: UITableViewCell {
 	
 	// MARK: Elements
 	@IBOutlet fileprivate weak var monthYearLabel: UILabel!
-	@IBOutlet fileprivate weak var weekLabelsView: UIView!
 	@IBOutlet fileprivate weak var collectionView: UICollectionView!
 	
 	override func awakeFromNib() {
@@ -36,6 +35,9 @@ class TableViewCell: UITableViewCell {
 	override func prepareForReuse() {
 		monthYearLabel.text = ""
 		datesOfMonth = []
+		DispatchQueue.main.async {
+			self.collectionView.reloadData()
+		}
 	}
 	
 	func setCell(datesOfMonth: [Date], numberOfRows: Int) {

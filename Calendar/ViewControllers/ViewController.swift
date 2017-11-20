@@ -6,6 +6,7 @@
 //  Copyright © 2017 Kautsya Kanu. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
 class ViewController: UITableViewController {
@@ -25,7 +26,7 @@ class ViewController: UITableViewController {
 		calendar = Calendar.current
 		
 		var midDate = currentDateObject
-		while calendar.dateComponents([.day], from: midDate).day! != 1 {
+		while Calendar.current.component(.day, from: midDate) != 1 {
 			midDate = calendar.date(byAdding: .day, value: -1, to: midDate)!
 		}
 		monthWiseDates = []
