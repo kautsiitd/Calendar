@@ -129,7 +129,7 @@
 				TargetAttributes = {
 					F2E0C8AF1FBCB9080072A0CF = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = A8UX99CMMW;
+						DevelopmentTeam = R8AFZ2J3P9;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -297,7 +297,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A8UX99CMMW;
+				DEVELOPMENT_TEAM = R8AFZ2J3P9;
 				INFOPLIST_FILE = Calendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kautsya.Calendar;
@@ -310,7 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = A8UX99CMMW;
+				DEVELOPMENT_TEAM = R8AFZ2J3P9;
 				INFOPLIST_FILE = Calendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kautsya.Calendar;

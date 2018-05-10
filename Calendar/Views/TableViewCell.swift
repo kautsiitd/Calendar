@@ -29,7 +29,7 @@ class TableViewCell: UITableViewCell {
 		collectionView.dataSource = self
 		collectionView.delegate = self
 		collectionViewCellHeight = 50.0
-		collectionViewCellWidth = self.frame.width/7
+		collectionViewCellWidth = self.frame.width/8
 	}
 	
 	override func prepareForReuse() {
