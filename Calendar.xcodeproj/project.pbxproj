@@ -318,7 +318,7 @@
 				DEVELOPMENT_TEAM = A8UX99CMMW;
 				INFOPLIST_FILE = Calendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kautsya.Calendar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kautsya.KanuCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -331,7 +331,7 @@
 				DEVELOPMENT_TEAM = A8UX99CMMW;
 				INFOPLIST_FILE = Calendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.kautsya.Calendar;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kautsya.KanuCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

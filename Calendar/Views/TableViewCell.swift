@@ -27,9 +27,9 @@ class TableViewCell: UITableViewCell {
 	
 	override func awakeFromNib() {
 		collectionView.dataSource = self
-		collectionView.delegate = self
+        collectionView.delegate = self
 		collectionViewCellHeight = 50.0
-		collectionViewCellWidth = self.frame.width/8
+		collectionViewCellWidth = self.frame.width/7
 	}
 	
 	override func prepareForReuse() {
@@ -49,8 +49,8 @@ class TableViewCell: UITableViewCell {
 		let currentMonth = firstDate.getMonthName()
 		let year = "\(Calendar.current.component(.year, from: firstDate))"
 		self.monthYearLabel.text = currentMonth + " " + year
-		DispatchQueue.main.async {
-			self.collectionView.reloadData()
+		DispatchQueue.main.async { [weak self] in
+			self?.collectionView.reloadData()
 		}
 	}
 }
@@ -71,8 +71,8 @@ extension TableViewCell: UICollectionViewDataSource {
 	}
 }
 
-extension TableViewCell: UICollectionViewDelegate {
-	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-		return CGSize(width: collectionViewCellWidth!, height: collectionViewCellHeight!)
-	}
+extension TableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionViewCellWidth!, height: collectionViewCellHeight!)
+    }
 }
