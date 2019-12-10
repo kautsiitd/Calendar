@@ -150,7 +150,11 @@
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b53-b9-4xI">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                                        <rect key="frame" x="10" y="10" width="30" height="30"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="b53-b9-4xI" secondAttribute="height" multiplier="1:1" id="2gj-eP-Gck"/>
+                                                                            <constraint firstAttribute="width" constant="30" id="8Nh-IN-6XO"/>
+                                                                        </constraints>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -159,8 +163,6 @@
                                                             </view>
                                                             <constraints>
                                                                 <constraint firstItem="b53-b9-4xI" firstAttribute="centerY" secondItem="WVy-pB-qla" secondAttribute="centerY" id="6Ma-Jd-fVa"/>
-                                                                <constraint firstItem="b53-b9-4xI" firstAttribute="height" secondItem="WVy-pB-qla" secondAttribute="height" id="g3T-ls-YcC"/>
-                                                                <constraint firstItem="b53-b9-4xI" firstAttribute="width" secondItem="WVy-pB-qla" secondAttribute="width" id="lhr-iM-fJV"/>
                                                                 <constraint firstItem="b53-b9-4xI" firstAttribute="centerX" secondItem="WVy-pB-qla" secondAttribute="centerX" id="tW4-1x-jyX"/>
                                                             </constraints>
                                                             <connections>

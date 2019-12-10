@@ -13,10 +13,16 @@ class CollectionViewCell: UICollectionViewCell {
 	
 	// MARK: Elements
 	@IBOutlet fileprivate weak var dateLabel: UILabel!
+    
+    override func awakeFromNib() {
+        dateLabel.text = ""
+    }
 	
 	override func prepareForReuse() {
 		dateLabel.text = ""
 		dateLabel.textColor = UIColor.black
+        dateLabel.font = UIFont.systemFont(ofSize: 17)
+        dateLabel.backgroundColor = UIColor.white
 	}
 	
 	func setCell(date: Date) {
@@ -25,5 +31,13 @@ class CollectionViewCell: UICollectionViewCell {
 		if(day == 1 || day == 7) {
 			dateLabel.textColor = UIColor.red
 		}
+        
+        if Calendar.current.isDateInToday(date) {
+            dateLabel.layer.cornerRadius = 15
+            dateLabel.layer.masksToBounds = true
+            dateLabel.textColor = UIColor.white
+            dateLabel.font = UIFont.boldSystemFont(ofSize: 17)
+            dateLabel.backgroundColor = UIColor.red
+        }
 	}
 }
