@@ -23,7 +23,7 @@
             </objects>
             <point key="canvasLocation" x="-1367" y="134"/>
         </scene>
-        <!--View Controller-->
+        <!--Calendar-->
         <scene sceneID="Rex-9n-80i">
             <objects>
                 <tableViewController id="uMc-aT-QFE" customClass="ViewController" customModule="Calendar" customModuleProvider="target" sceneMemberID="viewController">
@@ -106,6 +106,7 @@
                                                         <constraint firstItem="6Fs-FM-xuo" firstAttribute="centerY" secondItem="fmB-3B-AeJ" secondAttribute="centerY" id="4Hj-fK-TA8"/>
                                                         <constraint firstItem="R8K-iQ-R4i" firstAttribute="width" secondItem="Z2o-KK-Efj" secondAttribute="width" multiplier="1/7" id="4Lo-oy-EIZ"/>
                                                         <constraint firstAttribute="height" constant="35" id="FPg-oS-Zjq"/>
+                                                        <constraint firstAttribute="trailing" secondItem="esv-VO-XWU" secondAttribute="trailing" id="Ihc-kA-xcx"/>
                                                         <constraint firstItem="fmB-3B-AeJ" firstAttribute="centerY" secondItem="TC3-ci-SmM" secondAttribute="centerY" id="JBw-01-i8o"/>
                                                         <constraint firstItem="IOt-2P-pmk" firstAttribute="height" secondItem="3L8-NC-GTf" secondAttribute="height" id="Laq-wM-YZz"/>
                                                         <constraint firstItem="fmB-3B-AeJ" firstAttribute="height" secondItem="TC3-ci-SmM" secondAttribute="height" id="NHa-9b-9Lf"/>
@@ -206,7 +207,7 @@
                             <outlet property="delegate" destination="uMc-aT-QFE" id="q9b-ED-4Cv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="vb7-PJ-qze"/>
+                    <navigationItem key="navigationItem" title="Calendar" id="vb7-PJ-qze"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PcJ-hV-Qgk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
