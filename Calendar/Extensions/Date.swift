@@ -9,10 +9,13 @@
 import Foundation
 
 extension Date {
-	func getMonthName() -> String {
-		let dateFormatter = DateFormatter()
-		dateFormatter.dateFormat = "MMM"
-		let strMonth = dateFormatter.string(from: self)
-		return strMonth
-	}
+    func convertTo(string: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = string
+        let strMonth = dateFormatter.string(from: self)
+        return strMonth
+    }
+    func uniqueId() -> String {
+        return convertTo(string: "MMM d,yyyy")
+    }
 }

@@ -12,6 +12,7 @@ import UIKit
 class ViewController: UITableViewController {
 	
 	// MARK: Constants
+    let context = CoreDataStack.shared.persistentContainer.viewContext
 	var numberOfMonths: Int = 6
 	
 	// MARK: Variables
@@ -19,6 +20,7 @@ class ViewController: UITableViewController {
 	var calendar: Calendar
 	var monthWiseDates: [[Date]]
 	var rowsForMonth: [Int]
+    var todos: [String: Todo] = [:]
 	
 	// MARK: Init
 	required init?(coder aDecoder: NSCoder) {
@@ -52,7 +54,16 @@ class ViewController: UITableViewController {
 			}
 			monthCount += 1
 		}
-		
+        
+        do {
+            let todos = try context.fetch(Todo.fetchRequest()) as [Todo]
+            for todo in todos {
+                self.todos[todo.date.uniqueId()] = todo
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
 		super.init(coder: aDecoder)
 	}
 	
@@ -62,20 +73,31 @@ class ViewController: UITableViewController {
 	}
 }
 
+//MARK: TableView
 extension ViewController {
-	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return numberOfMonths
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-		cell.setCell(datesOfMonth: self.monthWiseDates[indexPath.row], numberOfRows: self.rowsForMonth[indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(TableViewCell.self)", for: indexPath) as! TableViewCell
+        cell.delegate = self
+        cell.setCell(todos: self.todos,
+                     datesOfMonth: self.monthWiseDates[indexPath.row],
+                     numberOfRows: self.rowsForMonth[indexPath.row])
 		return cell
 	}
 	
 	override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 10+30+35+CGFloat(rowsForMonth[indexPath.row]*50)+10
+		return 9+10+30+35+CGFloat(rowsForMonth[indexPath.row]*50)+10+9
 	}
 }
 
+//MARK: CalendarCellProtocol
+extension ViewController: CalendarCellProtocol {
+    func openTaskFor(date: Date) {
+        let taskViewController = TaskViewController(date: date,
+                                                    todos: todos[date.uniqueId()])
+        present(taskViewController, animated: true, completion: nil)
+    }
+}

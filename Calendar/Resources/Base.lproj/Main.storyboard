@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1C2-A6-L3k">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="1C2-A6-L3k">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -159,14 +159,25 @@
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RpO-DH-61K">
+                                                                        <rect key="frame" x="22" y="40" width="6" height="6"/>
+                                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" secondItem="RpO-DH-61K" secondAttribute="height" multiplier="1:1" id="PAz-kM-u5d"/>
+                                                                            <constraint firstAttribute="width" constant="6" id="UbH-Sa-tz7"/>
+                                                                        </constraints>
+                                                                    </view>
                                                                 </subviews>
                                                             </view>
                                                             <constraints>
                                                                 <constraint firstItem="b53-b9-4xI" firstAttribute="centerY" secondItem="WVy-pB-qla" secondAttribute="centerY" id="6Ma-Jd-fVa"/>
+                                                                <constraint firstItem="RpO-DH-61K" firstAttribute="centerX" secondItem="b53-b9-4xI" secondAttribute="centerX" id="6d3-lP-9Qy"/>
+                                                                <constraint firstItem="RpO-DH-61K" firstAttribute="top" secondItem="b53-b9-4xI" secondAttribute="bottom" id="V3F-vB-LGx"/>
                                                                 <constraint firstItem="b53-b9-4xI" firstAttribute="centerX" secondItem="WVy-pB-qla" secondAttribute="centerX" id="tW4-1x-jyX"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="dateLabel" destination="b53-b9-4xI" id="sR7-yS-NPA"/>
+                                                                <outlet property="taskView" destination="RpO-DH-61K" id="iiM-MB-yX6"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>

@@ -9,26 +9,33 @@
 import Foundation
 import UIKit
 
+protocol CalendarCellProtocol {
+    func openTaskFor(date: Date)
+}
+
 class TableViewCell: UITableViewCell {
+    
+    //MNARK: Properties
+    var delegate: CalendarCellProtocol?
+    private var todos: [String: Todo] = [:]
+    
+    // MARK: Elements
+    @IBOutlet private weak var monthYearLabel: UILabel!
+    @IBOutlet private weak var collectionView: UICollectionView!
 	
 	// MARK: Variables
-	fileprivate var datesOfMonth: [Date]?
-	fileprivate var offset: Int = 0
-	fileprivate var numberOfDates: Int = 0
-	fileprivate var numberOfRows = 0
+	private var datesOfMonth: [Date]?
+	private var offset: Int = 0
+	private var numberOfDates: Int = 0
+	private var numberOfRows = 0
 	
 	// MARK: Constants
-	fileprivate var collectionViewCellHeight: CGFloat?
-	fileprivate var collectionViewCellWidth: CGFloat?
-	
-	// MARK: Elements
-	@IBOutlet fileprivate weak var monthYearLabel: UILabel!
-	@IBOutlet fileprivate weak var collectionView: UICollectionView!
+	private let collectionViewCellHeight: CGFloat = 50.0
+	private var collectionViewCellWidth: CGFloat?
 	
 	override func awakeFromNib() {
 		collectionView.dataSource = self
         collectionView.delegate = self
-		collectionViewCellHeight = 50.0
 		collectionViewCellWidth = self.frame.width/7
 	}
 	
@@ -40,13 +47,14 @@ class TableViewCell: UITableViewCell {
 		}
 	}
 	
-	func setCell(datesOfMonth: [Date], numberOfRows: Int) {
+    func setCell(todos:[String: Todo], datesOfMonth: [Date], numberOfRows: Int) {
+        self.todos = todos
 		self.datesOfMonth = datesOfMonth
 		self.offset = Calendar.current.dateComponents([.weekday], from: datesOfMonth[0]).weekday! - 1
 		self.numberOfDates = datesOfMonth.count
 		self.numberOfRows = numberOfRows
 		let firstDate = datesOfMonth[0]
-		let currentMonth = firstDate.getMonthName()
+        let currentMonth = firstDate.convertTo(string: "MMM")
 		let year = "\(Calendar.current.component(.year, from: firstDate))"
 		self.monthYearLabel.text = currentMonth + " " + year
 		DispatchQueue.main.async { [weak self] in
@@ -55,24 +63,40 @@ class TableViewCell: UITableViewCell {
 	}
 }
 
+//MARK: UICollectionView
 extension TableViewCell: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return numberOfRows*7
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-		DispatchQueue.main.async {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CollectionViewCell.self)", for: indexPath) as! CollectionViewCell
+		DispatchQueue.main.async { [weak self] in
+            guard let self = self else {
+                return
+            }
 			if (indexPath.row >= self.offset) && (indexPath.row < self.numberOfDates+self.offset) {
-				cell.setCell(date: self.datesOfMonth![indexPath.row-self.offset])
+                let date = self.datesOfMonth![indexPath.row-self.offset]
+                let isTodo = self.todos[date.uniqueId()] != nil
+				cell.setCell(date: date,
+                             isTodo: isTodo)
 			}
 		}
 		return cell
 	}
 }
 
+extension TableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (indexPath.row >= offset) && (indexPath.row < numberOfDates+offset) {
+            let date = datesOfMonth![indexPath.row-offset]
+            delegate?.openTaskFor(date: date)
+        }
+    }
+}
+
 extension TableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionViewCellWidth!, height: collectionViewCellHeight!)
+        return CGSize(width: collectionViewCellWidth!, height: collectionViewCellHeight)
     }
 }

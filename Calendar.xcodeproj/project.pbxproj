@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		638D101A23869809005C4310 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638D101823869809005C4310 /* TaskViewController.swift */; };
+		6394D2C723A04E57004FD487 /* Calendar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6394D2C523A04E57004FD487 /* Calendar.xcdatamodeld */; };
+		6394D2CC23A04FF1004FD487 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394D2CB23A04FF1004FD487 /* CoreDataStack.swift */; };
+		6394D2CE23A05789004FD487 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394D2CD23A05789004FD487 /* Todo.swift */; };
+		6394D2D223A12E0B004FD487 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6394D2D123A12E0B004FD487 /* TaskViewController.xib */; };
 		F295A0E41FBDB9D8006F3CEE /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F295A0E31FBDB9D8006F3CEE /* Date.swift */; };
 		F2E0C8B41FBCB9080072A0CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E0C8B31FBCB9080072A0CF /* AppDelegate.swift */; };
 		F2E0C8B91FBCB9080072A0CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2E0C8B71FBCB9080072A0CF /* Main.storyboard */; };
@@ -20,6 +24,10 @@
 
 /* Begin PBXFileReference section */
 		638D101823869809005C4310 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskViewController.swift; path = ViewControllers/TaskViewController.swift; sourceTree = "<group>"; };
+		6394D2C623A04E57004FD487 /* Calendar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Calendar.xcdatamodel; sourceTree = "<group>"; };
+		6394D2CB23A04FF1004FD487 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		6394D2CD23A05789004FD487 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		6394D2D123A12E0B004FD487 /* TaskViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		F295A0E31FBDB9D8006F3CEE /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Date.swift; path = Extensions/Date.swift; sourceTree = "<group>"; };
 		F2E0C8B01FBCB9080072A0CF /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2E0C8B31FBCB9080072A0CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +51,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6394D2CA23A04FA9004FD487 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6394D2CB23A04FF1004FD487 /* CoreDataStack.swift */,
+				6394D2CD23A05789004FD487 /* Todo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		639DD30F23A2EC5D00D15E6E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F2E0C8B71FBCB9080072A0CF /* Main.storyboard */,
+				F2E0C8BA1FBCB9080072A0CF /* Assets.xcassets */,
+				F2E0C8BC1FBCB9080072A0CF /* LaunchScreen.storyboard */,
+				6394D2C523A04E57004FD487 /* Calendar.xcdatamodeld */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		F295A0E21FBDB9BA006F3CEE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -70,13 +98,12 @@
 		F2E0C8B21FBCB9080072A0CF /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
+				639DD30F23A2EC5D00D15E6E /* Resources */,
+				6394D2CA23A04FA9004FD487 /* Model */,
 				F295A0E21FBDB9BA006F3CEE /* Extensions */,
 				F2E0C8C81FBCC6880072A0CF /* Views */,
 				F2E0C8C51FBCC64C0072A0CF /* ViewControllers */,
 				F2E0C8B31FBCB9080072A0CF /* AppDelegate.swift */,
-				F2E0C8B71FBCB9080072A0CF /* Main.storyboard */,
-				F2E0C8BA1FBCB9080072A0CF /* Assets.xcassets */,
-				F2E0C8BC1FBCB9080072A0CF /* LaunchScreen.storyboard */,
 				F2E0C8BF1FBCB9080072A0CF /* Info.plist */,
 			);
 			path = Calendar;
@@ -87,6 +114,7 @@
 			children = (
 				F2E0C8C61FBCC65C0072A0CF /* ViewController.swift */,
 				638D101823869809005C4310 /* TaskViewController.swift */,
+				6394D2D123A12E0B004FD487 /* TaskViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -161,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2E0C8BE1FBCB9080072A0CF /* LaunchScreen.storyboard in Resources */,
+				6394D2D223A12E0B004FD487 /* TaskViewController.xib in Resources */,
 				F2E0C8BB1FBCB9080072A0CF /* Assets.xcassets in Resources */,
 				F2E0C8B91FBCB9080072A0CF /* Main.storyboard in Resources */,
 			);
@@ -175,10 +204,13 @@
 			files = (
 				F2FA89AA1FC2621800712198 /* CollectionViewCell.swift in Sources */,
 				F295A0E41FBDB9D8006F3CEE /* Date.swift in Sources */,
+				6394D2C723A04E57004FD487 /* Calendar.xcdatamodeld in Sources */,
 				F2E0C8CA1FBCC6CB0072A0CF /* TableViewCell.swift in Sources */,
+				6394D2CE23A05789004FD487 /* Todo.swift in Sources */,
 				F2E0C8C71FBCC65C0072A0CF /* ViewController.swift in Sources */,
 				F2E0C8B41FBCB9080072A0CF /* AppDelegate.swift in Sources */,
 				638D101A23869809005C4310 /* TaskViewController.swift in Sources */,
+				6394D2CC23A04FF1004FD487 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +395,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6394D2C523A04E57004FD487 /* Calendar.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6394D2C623A04E57004FD487 /* Calendar.xcdatamodel */,
+			);
+			currentVersion = 6394D2C623A04E57004FD487 /* Calendar.xcdatamodel */;
+			path = Calendar.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = F2E0C8A81FBCB9080072A0CF /* Project object */;
 }

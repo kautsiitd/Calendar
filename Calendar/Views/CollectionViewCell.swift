@@ -10,12 +10,16 @@ import Foundation
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
+    
+    var date: Date?
 	
 	// MARK: Elements
-	@IBOutlet fileprivate weak var dateLabel: UILabel!
+	@IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var taskView: UIView!
     
     override func awakeFromNib() {
         dateLabel.text = ""
+        taskView.layer.cornerRadius = 3
     }
 	
 	override func prepareForReuse() {
@@ -25,7 +29,8 @@ class CollectionViewCell: UICollectionViewCell {
         dateLabel.backgroundColor = UIColor.white
 	}
 	
-	func setCell(date: Date) {
+    func setCell(date: Date, isTodo: Bool) {
+        self.date = date
 		dateLabel.text = "\(Calendar.current.dateComponents([.day], from: date).day!)"
 		let day = Calendar.current.component(.weekday, from: date)
 		if(day == 1 || day == 7) {
@@ -39,5 +44,7 @@ class CollectionViewCell: UICollectionViewCell {
             dateLabel.font = UIFont.boldSystemFont(ofSize: 17)
             dateLabel.backgroundColor = UIColor.red
         }
+        
+        taskView.backgroundColor = isTodo ? UIColor.red : UIColor.white
 	}
 }
