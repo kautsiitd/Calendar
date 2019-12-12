@@ -160,7 +160,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RpO-DH-61K">
-                                                                        <rect key="frame" x="22" y="40" width="6" height="6"/>
+                                                                        <rect key="frame" x="22" y="42" width="6" height="6"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="RpO-DH-61K" secondAttribute="height" multiplier="1:1" id="PAz-kM-u5d"/>
@@ -172,7 +172,7 @@
                                                             <constraints>
                                                                 <constraint firstItem="b53-b9-4xI" firstAttribute="centerY" secondItem="WVy-pB-qla" secondAttribute="centerY" id="6Ma-Jd-fVa"/>
                                                                 <constraint firstItem="RpO-DH-61K" firstAttribute="centerX" secondItem="b53-b9-4xI" secondAttribute="centerX" id="6d3-lP-9Qy"/>
-                                                                <constraint firstItem="RpO-DH-61K" firstAttribute="top" secondItem="b53-b9-4xI" secondAttribute="bottom" id="V3F-vB-LGx"/>
+                                                                <constraint firstItem="RpO-DH-61K" firstAttribute="top" secondItem="b53-b9-4xI" secondAttribute="bottom" constant="2" id="V3F-vB-LGx"/>
                                                                 <constraint firstItem="b53-b9-4xI" firstAttribute="centerX" secondItem="WVy-pB-qla" secondAttribute="centerX" id="tW4-1x-jyX"/>
                                                             </constraints>
                                                             <connections>

@@ -12,6 +12,7 @@ class TaskViewController: UIViewController {
     
     //MARK: Properties
     private let context = CoreDataStack.shared.persistentContainer.viewContext
+    private var delegate: TodoProtocol?
     private var date: Date
     private var todo: Todo?
     
@@ -21,13 +22,15 @@ class TaskViewController: UIViewController {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var saveButton: UIButton!
     
-    init(date: Date, todos: Todo?) {
+    init(delegate: TodoProtocol?, date: Date, todos: Todo?) {
+        self.delegate = delegate
         self.date = date
         self.todo = todos
         super.init(nibName: "\(TaskViewController.self)", bundle: nil)
     }
     
     required init?(coder: NSCoder) {
+        self.delegate = nil
         self.date = Date()
         self.todo = Todo()
         super.init(coder: coder)
@@ -58,6 +61,7 @@ class TaskViewController: UIViewController {
                 fatalError("Data could not be Saved")
             }
         }
+        delegate?.added(todo: todo)
         dismiss(animated: true,
                 completion: nil)
     }

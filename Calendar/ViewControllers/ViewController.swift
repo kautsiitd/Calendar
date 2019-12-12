@@ -55,6 +55,11 @@ class ViewController: UITableViewController {
 			monthCount += 1
 		}
         
+		super.init(coder: aDecoder)
+        fetchTodos()
+	}
+    
+    private func fetchTodos() {
         do {
             let todos = try context.fetch(Todo.fetchRequest()) as [Todo]
             for todo in todos {
@@ -63,9 +68,7 @@ class ViewController: UITableViewController {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-        
-		super.init(coder: aDecoder)
-	}
+    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -96,8 +99,18 @@ extension ViewController {
 //MARK: CalendarCellProtocol
 extension ViewController: CalendarCellProtocol {
     func openTaskFor(date: Date) {
-        let taskViewController = TaskViewController(date: date,
+        let taskViewController = TaskViewController(delegate: self,
+                                                    date: date,
                                                     todos: todos[date.uniqueId()])
         present(taskViewController, animated: true, completion: nil)
+    }
+}
+
+//MARK: TodoProtocol
+extension ViewController: TodoProtocol {
+    func added(todo: Todo) {
+        //TODO: Canbe Improved
+        fetchTodos()
+        tableView.reloadData()
     }
 }

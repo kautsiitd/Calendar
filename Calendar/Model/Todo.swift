@@ -9,6 +9,10 @@
 import Foundation
 import CoreData
 
+protocol TodoProtocol {
+    func added(todo: Todo)
+}
+
 class Todo: NSManagedObject {
     //MARK: Properties
     @NSManaged var date: Date
