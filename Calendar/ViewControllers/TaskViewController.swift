@@ -18,7 +18,7 @@ class TaskViewController: UIViewController {
     
     //MARK: Elements
     @IBOutlet private weak var titleField: UITextField!
-    @IBOutlet private weak var commentsField: UITextField!
+    @IBOutlet private weak var commentsField: UITextView!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var saveButton: UIButton!
     
@@ -44,8 +44,15 @@ class TaskViewController: UIViewController {
     
     private func setData() {
         titleField.text = todo?.title ?? ""
-        commentsField.text = todo?.comments ?? ""
         dateLabel.text = date.convertTo(string: "MMM d, yyyy")
+        guard let comment = todo?.comments,
+            comment != "" else {
+                commentsField.text = "Comments"
+                commentsField.textColor = UIColor.lightGray
+                return
+        }
+        commentsField.text = comment
+        commentsField.textColor = UIColor.black
     }
     
     @IBAction private func saveData() {
@@ -53,7 +60,7 @@ class TaskViewController: UIViewController {
                         insertInto: context)
         todo.date = date
         todo.title = titleField.text ?? ""
-        todo.comments = commentsField.text ?? ""
+        todo.comments = commentsField.textColor == UIColor.black ? commentsField.text : ""
         if context.hasChanges {
             do {
                 try context.save()
@@ -65,6 +72,10 @@ class TaskViewController: UIViewController {
         dismiss(animated: true,
                 completion: nil)
     }
+    
+    deinit {
+        view.endEditing(true)
+    }
 }
 
 //MARK: UITextFieldDelegate
@@ -72,5 +83,22 @@ extension TaskViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
+    }
+}
+
+//MARK: UITextViewDelegate
+extension TaskViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Comments"
+            textView.textColor = UIColor.lightGray
+        }
     }
 }

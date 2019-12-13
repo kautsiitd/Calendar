@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TaskViewController" customModule="Calendar" customModuleProvider="target">
             <connections>
-                <outlet property="commentsField" destination="W1x-f4-fES" id="VCb-Dy-cjM"/>
+                <outlet property="commentsField" destination="n10-mH-exO" id="e2e-85-KYl"/>
                 <outlet property="dateLabel" destination="qLb-Gd-ftf" id="Kmg-6P-Lt8"/>
                 <outlet property="saveButton" destination="Isg-Cp-j69" id="cOJ-Ds-f1D"/>
                 <outlet property="titleField" destination="7PR-nt-NDw" id="1SS-5j-spz"/>
@@ -26,7 +26,7 @@
                     <rect key="frame" x="0.0" y="44" width="414" height="724"/>
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="7PR-nt-NDw">
-                            <rect key="frame" x="20" y="30" width="42" height="24"/>
+                            <rect key="frame" x="20" y="30" width="374" height="24"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             <connections>
@@ -40,26 +40,35 @@
                                 <constraint firstAttribute="height" constant="1" id="dAm-fr-2yb"/>
                             </constraints>
                         </view>
-                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Comments" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="W1x-f4-fES">
-                            <rect key="frame" x="20" y="78" width="374" height="22"/>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="Comments" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="n10-mH-exO">
+                            <rect key="frame" x="20" y="73" width="374" height="200"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="200" id="ZHN-01-boX"/>
+                            </constraints>
+                            <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="doneAccessory" value="YES"/>
+                            </userDefinedRuntimeAttributes>
                             <connections>
-                                <outlet property="delegate" destination="-1" id="YEV-cs-nzE"/>
+                                <outlet property="delegate" destination="-1" id="D7g-xz-dXp"/>
                             </connections>
-                        </textField>
+                        </textView>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="hZI-PF-wyc" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7PR-nt-NDw" secondAttribute="trailing" constant="20" id="5OC-Is-sz9"/>
-                        <constraint firstItem="8ec-oB-fgo" firstAttribute="leading" secondItem="hZI-PF-wyc" secondAttribute="leading" constant="20" id="JAH-Il-woL"/>
-                        <constraint firstItem="W1x-f4-fES" firstAttribute="leading" secondItem="hZI-PF-wyc" secondAttribute="leading" constant="20" id="JMA-rh-l8O"/>
-                        <constraint firstItem="W1x-f4-fES" firstAttribute="top" secondItem="8ec-oB-fgo" secondAttribute="bottom" constant="15" id="NkX-uG-AE2"/>
-                        <constraint firstItem="W1x-f4-fES" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hZI-PF-wyc" secondAttribute="trailing" constant="20" id="THR-hq-MuZ"/>
-                        <constraint firstItem="W1x-f4-fES" firstAttribute="bottom" secondItem="hZI-PF-wyc" secondAttribute="bottom" id="Ur0-Ep-tgw"/>
+                        <constraint firstItem="n10-mH-exO" firstAttribute="top" secondItem="8ec-oB-fgo" secondAttribute="bottom" constant="10" id="6nD-ol-qoT"/>
+                        <constraint firstItem="V5a-q5-hed" firstAttribute="trailing" secondItem="n10-mH-exO" secondAttribute="trailing" constant="20" id="AsL-7a-ck5"/>
+                        <constraint firstItem="n10-mH-exO" firstAttribute="leading" secondItem="V5a-q5-hed" secondAttribute="leading" constant="20" id="Eap-Ix-N5k"/>
+                        <constraint firstItem="V5a-q5-hed" firstAttribute="trailing" secondItem="8ec-oB-fgo" secondAttribute="trailing" constant="20" id="TQY-kl-fPG"/>
                         <constraint firstItem="8ec-oB-fgo" firstAttribute="top" secondItem="7PR-nt-NDw" secondAttribute="bottom" constant="8" id="a3d-GK-uzl"/>
-                        <constraint firstItem="7PR-nt-NDw" firstAttribute="top" secondItem="hZI-PF-wyc" secondAttribute="top" constant="30" id="iPq-No-MUw"/>
-                        <constraint firstItem="7PR-nt-NDw" firstAttribute="leading" secondItem="hZI-PF-wyc" secondAttribute="leading" constant="20" id="mAP-tl-2PP"/>
-                        <constraint firstItem="8ec-oB-fgo" firstAttribute="trailing" secondItem="hZI-PF-wyc" secondAttribute="trailing" constant="20" id="uBH-xK-JZ8"/>
+                        <constraint firstItem="7PR-nt-NDw" firstAttribute="leading" secondItem="V5a-q5-hed" secondAttribute="leading" constant="20" id="cf3-yu-hsm"/>
+                        <constraint firstItem="n10-mH-exO" firstAttribute="bottom" secondItem="hZI-PF-wyc" secondAttribute="bottom" constant="30" id="e7O-Oa-cxe"/>
+                        <constraint firstItem="8ec-oB-fgo" firstAttribute="leading" secondItem="V5a-q5-hed" secondAttribute="leading" constant="20" id="grY-Lf-PRi"/>
+                        <constraint firstItem="V5a-q5-hed" firstAttribute="trailing" secondItem="7PR-nt-NDw" secondAttribute="trailing" constant="20" id="kaW-c5-LBq"/>
+                        <constraint firstItem="8ec-oB-fgo" firstAttribute="width" secondItem="hZI-PF-wyc" secondAttribute="width" multiplier="6.03226" id="l0c-cn-bmz"/>
+                        <constraint firstItem="7PR-nt-NDw" firstAttribute="top" secondItem="hZI-PF-wyc" secondAttribute="top" constant="30" id="q2w-t0-kUU"/>
                     </constraints>
                     <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="1"/>
                     <viewLayoutGuide key="contentLayoutGuide" id="hZI-PF-wyc"/>

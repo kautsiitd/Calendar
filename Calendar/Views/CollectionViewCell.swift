@@ -27,6 +27,7 @@ class CollectionViewCell: UICollectionViewCell {
 		dateLabel.textColor = UIColor.black
         dateLabel.font = UIFont.systemFont(ofSize: 17)
         dateLabel.backgroundColor = UIColor.white
+        taskView.backgroundColor = UIColor.white
 	}
 	
     func setCell(date: Date, isTodo: Bool) {
