@@ -62,6 +62,7 @@ class ViewController: UITableViewController {
     private func fetchTodos() {
         do {
             let todos = try context.fetch(Todo.fetchRequest()) as [Todo]
+            self.todos = [:]
             for todo in todos {
                 self.todos[todo.date.uniqueId()] = todo
             }
@@ -109,6 +110,12 @@ extension ViewController: CalendarCellProtocol {
 //MARK: TodoProtocol
 extension ViewController: TodoProtocol {
     func added(todo: Todo) {
+        //TODO: Canbe Improved
+        fetchTodos()
+        tableView.reloadData()
+    }
+    
+    func delete(todo: Todo) {
         //TODO: Canbe Improved
         fetchTodos()
         tableView.reloadData()

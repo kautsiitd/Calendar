@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class TaskViewController: UIViewController {
     
@@ -21,6 +22,7 @@ class TaskViewController: UIViewController {
     @IBOutlet private weak var commentsField: UITextView!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var saveButton: UIButton!
+    @IBOutlet private weak var deleteButton: UIButton!
     
     init(delegate: TodoProtocol?, date: Date, todos: Todo?) {
         self.delegate = delegate
@@ -39,6 +41,8 @@ class TaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.layer.cornerRadius = 5
+        deleteButton.layer.cornerRadius = 5
+        deleteButton.isHidden = (todo == nil)
         setData()
     }
     
@@ -61,14 +65,22 @@ class TaskViewController: UIViewController {
         todo.date = date
         todo.title = titleField.text ?? ""
         todo.comments = commentsField.textColor == UIColor.black ? commentsField.text : ""
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                fatalError("Data could not be Saved")
-            }
-        }
+        
+        CoreDataStack.shared.save(context: context)
         delegate?.added(todo: todo)
+        dismiss(animated: true,
+                completion: nil)
+    }
+    
+    @IBAction private func deleteData() {
+        guard let todo = todo else {
+            return
+        }
+        context.performAndWait {
+            context.delete(todo)
+            CoreDataStack.shared.save(context: context)
+        }
+        delegate?.delete(todo: todo)
         dismiss(animated: true,
                 completion: nil)
     }

@@ -11,6 +11,7 @@ import CoreData
 
 protocol TodoProtocol {
     func added(todo: Todo)
+    func delete(todo: Todo)
 }
 
 class Todo: NSManagedObject {
