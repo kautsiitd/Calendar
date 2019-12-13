@@ -60,12 +60,25 @@ class TaskViewController: UIViewController {
     }
     
     @IBAction private func saveData() {
-        let todo = Todo(entity: Todo.entity(),
-                        insertInto: context)
+        guard let todo = todo else {
+            let object = Todo(entity: Todo.entity(),
+                            insertInto: context)
+            save(todo: object)
+            return
+        }
+        
+        guard let object = context.object(with: todo.objectID) as? Todo else {
+            dismiss(animated: true,
+            completion: nil)
+            return
+        }
+        save(todo: object)
+    }
+    
+    private func save(todo: Todo) {
         todo.date = date
         todo.title = titleField.text ?? ""
         todo.comments = commentsField.textColor == UIColor.black ? commentsField.text : ""
-        
         CoreDataStack.shared.save(context: context)
         delegate?.added(todo: todo)
         dismiss(animated: true,
