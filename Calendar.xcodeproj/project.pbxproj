@@ -13,6 +13,7 @@
 		6394D2CE23A05789004FD487 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394D2CD23A05789004FD487 /* Todo.swift */; };
 		6394D2D223A12E0B004FD487 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6394D2D123A12E0B004FD487 /* TaskViewController.xib */; };
 		639DD31223A30F2F00D15E6E /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639DD31123A30F2F00D15E6E /* UITextView.swift */; };
+		639DD31523A32F9200D15E6E /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639DD31423A32F9200D15E6E /* LocalAuthentication.framework */; };
 		F295A0E41FBDB9D8006F3CEE /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F295A0E31FBDB9D8006F3CEE /* Date.swift */; };
 		F2E0C8B41FBCB9080072A0CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E0C8B31FBCB9080072A0CF /* AppDelegate.swift */; };
 		F2E0C8B91FBCB9080072A0CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2E0C8B71FBCB9080072A0CF /* Main.storyboard */; };
@@ -30,6 +31,7 @@
 		6394D2CD23A05789004FD487 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
 		6394D2D123A12E0B004FD487 /* TaskViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		639DD31123A30F2F00D15E6E /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
+		639DD31423A32F9200D15E6E /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		F295A0E31FBDB9D8006F3CEE /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Date.swift; path = Extensions/Date.swift; sourceTree = "<group>"; };
 		F2E0C8B01FBCB9080072A0CF /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2E0C8B31FBCB9080072A0CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				639DD31523A32F9200D15E6E /* LocalAuthentication.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +76,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		639DD31323A32F9200D15E6E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				639DD31423A32F9200D15E6E /* LocalAuthentication.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F295A0E21FBDB9BA006F3CEE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +98,7 @@
 			children = (
 				F2E0C8B21FBCB9080072A0CF /* Calendar */,
 				F2E0C8B11FBCB9080072A0CF /* Products */,
+				639DD31323A32F9200D15E6E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

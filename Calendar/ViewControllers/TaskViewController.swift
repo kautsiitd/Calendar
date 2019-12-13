@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import LocalAuthentication
 
 class TaskViewController: UIViewController {
     
@@ -60,42 +61,52 @@ class TaskViewController: UIViewController {
     }
     
     @IBAction private func saveData() {
-        guard let todo = todo else {
-            let object = Todo(entity: Todo.entity(),
-                            insertInto: context)
-            save(todo: object)
-            return
+        authenticateUser { [unowned self] in
+            guard let todo = self.todo else {
+                let object = Todo(entity: Todo.entity(),
+                                  insertInto: self.context)
+                self.save(todo: object)
+                return
+            }
+            
+            guard let object = self.context.object(with: todo.objectID) as? Todo else {
+                DispatchQueue.main.async { [unowned self] in
+                    self.dismiss(animated: true,
+                    completion: nil)
+                }
+                return
+            }
+            self.save(todo: object)
         }
-        
-        guard let object = context.object(with: todo.objectID) as? Todo else {
-            dismiss(animated: true,
-            completion: nil)
-            return
-        }
-        save(todo: object)
     }
     
     private func save(todo: Todo) {
-        todo.date = date
-        todo.title = titleField.text ?? ""
-        todo.comments = commentsField.textColor == UIColor.black ? commentsField.text : ""
-        CoreDataStack.shared.save(context: context)
-        delegate?.added(todo: todo)
-        dismiss(animated: true,
-                completion: nil)
+        DispatchQueue.main.async {
+            todo.date = self.date
+            todo.title = self.titleField.text ?? ""
+            todo.comments = self.commentsField.textColor == UIColor.black ? self.commentsField.text : ""
+        }
+        CoreDataStack.shared.save(context: self.context)
+        self.delegate?.added(todo: todo)
+        DispatchQueue.main.async { [unowned self] in
+            self.dismiss(animated: true,
+            completion: nil)
+        }
     }
     
     @IBAction private func deleteData() {
         guard let todo = todo else {
             return
         }
-        context.performAndWait {
-            context.delete(todo)
-            CoreDataStack.shared.save(context: context)
-        }
-        delegate?.delete(todo: todo)
-        dismiss(animated: true,
+        authenticateUser { [unowned self] in
+            self.context.delete(todo)
+            CoreDataStack.shared.save(context: self.context)
+            self.delegate?.delete(todo: todo)
+            DispatchQueue.main.async { [unowned self] in
+                self.dismiss(animated: true,
                 completion: nil)
+            }
+        }
     }
     
     deinit {
@@ -125,5 +136,18 @@ extension TaskViewController: UITextViewDelegate {
             textView.text = "Comments"
             textView.textColor = UIColor.lightGray
         }
+    }
+}
+
+//MARK: LocalAuthentication
+extension TaskViewController {
+    func authenticateUser(completion: @escaping () -> Void) {
+        let context = LAContext()
+        let reason = "Please verify to make changes"
+        context.evaluatePolicy(.deviceOwnerAuthentication,
+                               localizedReason: reason,
+                               reply: { success, error in
+                                if success{ completion() }
+        })
     }
 }

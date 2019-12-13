@@ -112,12 +112,16 @@ extension ViewController: TodoProtocol {
     func added(todo: Todo) {
         //TODO: Canbe Improved
         fetchTodos()
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     func delete(todo: Todo) {
         //TODO: Canbe Improved
         fetchTodos()
-        tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
