@@ -99,16 +99,28 @@
                                     <outlet property="delegate" destination="xtd-Ou-zVT" id="H87-fo-qfv"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data Available" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ihV-5Q-1FB">
+                                <rect key="frame" x="111" y="321.5" width="153.5" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="ihV-5Q-1FB" firstAttribute="centerY" secondItem="boe-EA-Yjf" secondAttribute="centerY" id="A6H-MJ-bZx"/>
                             <constraint firstItem="l1l-Yf-zTp" firstAttribute="leading" secondItem="boe-EA-Yjf" secondAttribute="leading" id="Ki5-wQ-4l6"/>
                             <constraint firstAttribute="trailing" secondItem="l1l-Yf-zTp" secondAttribute="trailing" id="Nhv-pQ-8Cd"/>
+                            <constraint firstItem="ihV-5Q-1FB" firstAttribute="centerX" secondItem="boe-EA-Yjf" secondAttribute="centerX" id="S4C-TW-csn"/>
                             <constraint firstItem="XQQ-fx-kI9" firstAttribute="top" secondItem="l1l-Yf-zTp" secondAttribute="bottom" id="b1S-qR-TSH"/>
                             <constraint firstItem="l1l-Yf-zTp" firstAttribute="top" secondItem="a5i-Tq-Tv6" secondAttribute="bottom" id="ktW-R1-cFl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Todos" id="W1M-Eg-sfR"/>
+                    <connections>
+                        <outlet property="noDataLabel" destination="ihV-5Q-1FB" id="eeY-HT-7xw"/>
+                        <outlet property="tableView" destination="l1l-Yf-zTp" id="P4x-kT-Ygz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YJR-ec-zoZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

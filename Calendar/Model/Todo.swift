@@ -20,6 +20,7 @@ class Todo: NSManagedObject {
     @NSManaged var title: String
     @NSManaged var comments: String
     
+    
     @nonobjc class func fetchRequest() -> NSFetchRequest<Todo> {
         return NSFetchRequest<Todo>(entityName: "Todo")
     }

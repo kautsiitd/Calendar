@@ -12,7 +12,6 @@ import UIKit
 class CalendarViewController: UITableViewController {
 	
 	// MARK: Constants
-    let context = CoreDataStack.shared.persistentContainer.viewContext
 	var numberOfMonths: Int = 6
 	
 	// MARK: Variables

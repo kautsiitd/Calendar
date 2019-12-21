@@ -13,10 +13,12 @@ class TodosViewController: UIViewController {
     private var todos: [String: Todo] = [:]
     //MARK: Elements
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var noDataLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         todos = Todos.shared.getTodosDictWith(key: .index)
+        noDataLabel.isHidden = !todos.isEmpty
     }
 }
 
