@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalendarViewController.swift
 //  Calendar
 //
 //  Created by Kautsya Kanu on 15/11/17.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ViewController: UITableViewController {
+class CalendarViewController: UITableViewController {
 	
 	// MARK: Constants
     let context = CoreDataStack.shared.persistentContainer.viewContext
@@ -66,7 +66,7 @@ class ViewController: UITableViewController {
 }
 
 //MARK: TableView
-extension ViewController {
+extension CalendarViewController {
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return numberOfMonths
 	}
@@ -86,7 +86,7 @@ extension ViewController {
 }
 
 //MARK: CalendarCellProtocol
-extension ViewController: CalendarCellProtocol {
+extension CalendarViewController: CalendarCellProtocol {
     func openTaskFor(date: Date) {
         let taskViewController = TaskViewController(delegate: self,
                                                     date: date,
@@ -96,7 +96,7 @@ extension ViewController: CalendarCellProtocol {
 }
 
 //MARK: TodoProtocol
-extension ViewController: TodoProtocol {
+extension CalendarViewController: TodoProtocol {
     func added(todo: Todo) {
         //TODO: Canbe Improved
         todos = Todos.shared.getTodosDictWith(key: .date)
