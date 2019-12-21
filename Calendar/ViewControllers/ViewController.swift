@@ -56,24 +56,12 @@ class ViewController: UITableViewController {
 		}
         
 		super.init(coder: aDecoder)
-        fetchTodos()
 	}
-    
-    private func fetchTodos() {
-        do {
-            let todos = try context.fetch(Todo.fetchRequest()) as [Todo]
-            self.todos = [:]
-            for todo in todos {
-                self.todos[todo.date.uniqueId()] = todo
-            }
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
         tableView.rowHeight = UITableView.automaticDimension
+        todos = Todos.shared.getTodosDictWith(key: .date)
 	}
 }
 
@@ -84,7 +72,7 @@ extension ViewController {
 	}
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "\(TableViewCell.self)", for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "\(CalendarTableViewCell.self)", for: indexPath) as! CalendarTableViewCell
         cell.delegate = self
         cell.setCell(todos: self.todos,
                      datesOfMonth: self.monthWiseDates[indexPath.row],
@@ -111,7 +99,7 @@ extension ViewController: CalendarCellProtocol {
 extension ViewController: TodoProtocol {
     func added(todo: Todo) {
         //TODO: Canbe Improved
-        fetchTodos()
+        todos = Todos.shared.getTodosDictWith(key: .date)
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }
@@ -119,7 +107,7 @@ extension ViewController: TodoProtocol {
     
     func delete(todo: Todo) {
         //TODO: Canbe Improved
-        fetchTodos()
+        todos = Todos.shared.getTodosDictWith(key: .date)
         DispatchQueue.main.async { [weak self] in
             self?.tableView.reloadData()
         }

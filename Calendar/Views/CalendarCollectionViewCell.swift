@@ -1,5 +1,5 @@
 //
-//  CollectionViewCell.swift
+//  CalendarCollectionViewCell.swift
 //  Calendar
 //
 //  Created by Kautsya Kanu on 16/11/17.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CollectionViewCell: UICollectionViewCell {
+class CalendarCollectionViewCell: UICollectionViewCell {
     
     var date: Date?
 	

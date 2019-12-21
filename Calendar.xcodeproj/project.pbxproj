@@ -14,14 +14,17 @@
 		6394D2D223A12E0B004FD487 /* TaskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6394D2D123A12E0B004FD487 /* TaskViewController.xib */; };
 		639DD31223A30F2F00D15E6E /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639DD31123A30F2F00D15E6E /* UITextView.swift */; };
 		639DD31523A32F9200D15E6E /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639DD31423A32F9200D15E6E /* LocalAuthentication.framework */; };
+		63B5929223AE842900D5E82A /* TodosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5929123AE842900D5E82A /* TodosViewController.swift */; };
+		63B5929423AE84A300D5E82A /* Todos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5929323AE84A300D5E82A /* Todos.swift */; };
+		63B5929623AE8F6100D5E82A /* TodosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B5929523AE8F6100D5E82A /* TodosTableViewCell.swift */; };
 		F295A0E41FBDB9D8006F3CEE /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = F295A0E31FBDB9D8006F3CEE /* Date.swift */; };
 		F2E0C8B41FBCB9080072A0CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E0C8B31FBCB9080072A0CF /* AppDelegate.swift */; };
 		F2E0C8B91FBCB9080072A0CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2E0C8B71FBCB9080072A0CF /* Main.storyboard */; };
 		F2E0C8BB1FBCB9080072A0CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F2E0C8BA1FBCB9080072A0CF /* Assets.xcassets */; };
 		F2E0C8BE1FBCB9080072A0CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F2E0C8BC1FBCB9080072A0CF /* LaunchScreen.storyboard */; };
 		F2E0C8C71FBCC65C0072A0CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E0C8C61FBCC65C0072A0CF /* ViewController.swift */; };
-		F2E0C8CA1FBCC6CB0072A0CF /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E0C8C91FBCC6CB0072A0CF /* TableViewCell.swift */; };
-		F2FA89AA1FC2621800712198 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA89A91FC2621800712198 /* CollectionViewCell.swift */; };
+		F2E0C8CA1FBCC6CB0072A0CF /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E0C8C91FBCC6CB0072A0CF /* CalendarTableViewCell.swift */; };
+		F2FA89AA1FC2621800712198 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2FA89A91FC2621800712198 /* CalendarCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,9 @@
 		6394D2D123A12E0B004FD487 /* TaskViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskViewController.xib; sourceTree = "<group>"; };
 		639DD31123A30F2F00D15E6E /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
 		639DD31423A32F9200D15E6E /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
+		63B5929123AE842900D5E82A /* TodosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodosViewController.swift; path = ViewControllers/TodosViewController.swift; sourceTree = "<group>"; };
+		63B5929323AE84A300D5E82A /* Todos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todos.swift; sourceTree = "<group>"; };
+		63B5929523AE8F6100D5E82A /* TodosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodosTableViewCell.swift; path = Views/TodosTableViewCell.swift; sourceTree = "<group>"; };
 		F295A0E31FBDB9D8006F3CEE /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Date.swift; path = Extensions/Date.swift; sourceTree = "<group>"; };
 		F2E0C8B01FBCB9080072A0CF /* Calendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2E0C8B31FBCB9080072A0CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,8 +46,8 @@
 		F2E0C8BD1FBCB9080072A0CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F2E0C8BF1FBCB9080072A0CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F2E0C8C61FBCC65C0072A0CF /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
-		F2E0C8C91FBCC6CB0072A0CF /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewCell.swift; path = Views/TableViewCell.swift; sourceTree = "<group>"; };
-		F2FA89A91FC2621800712198 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CollectionViewCell.swift; path = Views/CollectionViewCell.swift; sourceTree = "<group>"; };
+		F2E0C8C91FBCC6CB0072A0CF /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarTableViewCell.swift; path = Views/CalendarTableViewCell.swift; sourceTree = "<group>"; };
+		F2FA89A91FC2621800712198 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarCollectionViewCell.swift; path = Views/CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,7 @@
 			children = (
 				6394D2CB23A04FF1004FD487 /* CoreDataStack.swift */,
 				6394D2CD23A05789004FD487 /* Todo.swift */,
+				63B5929323AE84A300D5E82A /* Todos.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -130,6 +137,7 @@
 				F2E0C8C61FBCC65C0072A0CF /* ViewController.swift */,
 				638D101823869809005C4310 /* TaskViewController.swift */,
 				6394D2D123A12E0B004FD487 /* TaskViewController.xib */,
+				63B5929123AE842900D5E82A /* TodosViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -137,8 +145,9 @@
 		F2E0C8C81FBCC6880072A0CF /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F2FA89A91FC2621800712198 /* CollectionViewCell.swift */,
-				F2E0C8C91FBCC6CB0072A0CF /* TableViewCell.swift */,
+				F2FA89A91FC2621800712198 /* CalendarCollectionViewCell.swift */,
+				F2E0C8C91FBCC6CB0072A0CF /* CalendarTableViewCell.swift */,
+				63B5929523AE8F6100D5E82A /* TodosTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -217,16 +226,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B5929223AE842900D5E82A /* TodosViewController.swift in Sources */,
 				639DD31223A30F2F00D15E6E /* UITextView.swift in Sources */,
-				F2FA89AA1FC2621800712198 /* CollectionViewCell.swift in Sources */,
+				F2FA89AA1FC2621800712198 /* CalendarCollectionViewCell.swift in Sources */,
 				F295A0E41FBDB9D8006F3CEE /* Date.swift in Sources */,
 				6394D2C723A04E57004FD487 /* Calendar.xcdatamodeld in Sources */,
-				F2E0C8CA1FBCC6CB0072A0CF /* TableViewCell.swift in Sources */,
+				F2E0C8CA1FBCC6CB0072A0CF /* CalendarTableViewCell.swift in Sources */,
 				6394D2CE23A05789004FD487 /* Todo.swift in Sources */,
+				63B5929623AE8F6100D5E82A /* TodosTableViewCell.swift in Sources */,
 				F2E0C8C71FBCC65C0072A0CF /* ViewController.swift in Sources */,
 				F2E0C8B41FBCB9080072A0CF /* AppDelegate.swift in Sources */,
 				638D101A23869809005C4310 /* TaskViewController.swift in Sources */,
 				6394D2CC23A04FF1004FD487 /* CoreDataStack.swift in Sources */,
+				63B5929423AE84A300D5E82A /* Todos.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

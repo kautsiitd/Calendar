@@ -1,5 +1,5 @@
 //
-//  TableViewCell.swift
+//  CalendarTableViewCell.swift
 //  Calendar
 //
 //  Created by Kautsya Kanu on 16/11/17.
@@ -13,7 +13,7 @@ protocol CalendarCellProtocol {
     func openTaskFor(date: Date)
 }
 
-class TableViewCell: UITableViewCell {
+class CalendarTableViewCell: UITableViewCell {
     
     //MNARK: Properties
     var delegate: CalendarCellProtocol?
@@ -64,13 +64,13 @@ class TableViewCell: UITableViewCell {
 }
 
 //MARK: UICollectionView
-extension TableViewCell: UICollectionViewDataSource {
+extension CalendarTableViewCell: UICollectionViewDataSource {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return numberOfRows*7
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CollectionViewCell.self)", for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(CalendarCollectionViewCell.self)", for: indexPath) as! CalendarCollectionViewCell
 		DispatchQueue.main.async { [weak self] in
             guard let self = self else {
                 return
@@ -86,7 +86,7 @@ extension TableViewCell: UICollectionViewDataSource {
 	}
 }
 
-extension TableViewCell: UICollectionViewDelegate {
+extension CalendarTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (indexPath.row >= offset) && (indexPath.row < numberOfDates+offset) {
             let date = datesOfMonth![indexPath.row-offset]
@@ -95,7 +95,7 @@ extension TableViewCell: UICollectionViewDelegate {
     }
 }
 
-extension TableViewCell: UICollectionViewDelegateFlowLayout {
+extension CalendarTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionViewCellWidth!, height: collectionViewCellHeight)
     }
