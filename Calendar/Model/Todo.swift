@@ -13,17 +13,17 @@ import CoreData
 @objc enum Priority: Int, CaseIterable {
     case interview, coding, shopping, birthday, holiday
     
-    static func getPriorityFrom(color: UIColor) -> Priority {
-        switch color {
-        case .red:
+    static func getPriorityFrom(title: String) -> Priority {
+        switch title {
+        case "Interview":
             return Priority(rawValue: 0)!
-        case .systemBlue:
+        case "Coding":
             return Priority(rawValue: 1)!
-        case .yellow:
+        case "Shopping":
             return Priority(rawValue: 2)!
-        case .brown:
+        case "Birthday":
             return Priority(rawValue: 3)!
-        case .lightGray:
+        case "Holiday":
             return Priority(rawValue: 4)!
         default:
             return Priority(rawValue: 0)!
@@ -50,7 +50,7 @@ import CoreData
         case .interview:
             return .red
         case .coding:
-            return .systemBlue
+            return .blue
         case .shopping:
             return .yellow
         case .birthday:

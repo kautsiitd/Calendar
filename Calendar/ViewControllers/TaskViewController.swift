@@ -26,10 +26,12 @@ class TaskViewController: UIViewController {
     @IBOutlet private weak var commentsField: UITextView!
     @IBOutlet private weak var saveButton: UIButton!
     @IBOutlet private weak var deleteButton: UIButton!
+    @IBOutlet private weak var priorityView: UIView!
+    @IBOutlet private weak var priorityBlurView: UIVisualEffectView!
     @IBOutlet private weak var pickerView: UIView!
     
     //MARK: Constraints
-    @IBOutlet private weak var pickerViewTopMargin: NSLayoutConstraint!
+    @IBOutlet private weak var pickerViewBottomConstraint: NSLayoutConstraint!
     
     init(delegate: TodoProtocol?, date: Date, todos: Todo?) {
         self.delegate = delegate
@@ -53,7 +55,7 @@ class TaskViewController: UIViewController {
         saveButton.layer.cornerRadius = 5
         deleteButton.layer.cornerRadius = 5
         deleteButton.isHidden = (todo == nil)
-        pickerView.isHidden = true
+        priorityView.isHidden = true
     }
     
     private func setData() {
@@ -71,22 +73,6 @@ class TaskViewController: UIViewController {
         commentsField.textColor = UIColor.black
     }
     
-    private func save(todo: Todo) {
-        DispatchQueue.main.async {
-            todo.date = self.date
-            let priorityColor = self.priorityLabelColorView.backgroundColor ?? Priority.getColor(.interview)()
-            todo.priority = Priority.getPriorityFrom(color: priorityColor)
-            todo.title = self.titleField.text ?? ""
-            todo.comments = self.commentsField.textColor == UIColor.black ? self.commentsField.text : ""
-        }
-        CoreDataStack.shared.save(context: self.context)
-        self.delegate?.added(todo: todo)
-        DispatchQueue.main.async { [unowned self] in
-            self.dismiss(animated: true,
-            completion: nil)
-        }
-    }
-    
     deinit {
         view.endEditing(true)
     }
@@ -94,42 +80,77 @@ class TaskViewController: UIViewController {
 
 //MARK: IBActions
 extension TaskViewController {
-    @IBAction private func selectPriority() {
-        pickerView.isHidden = false
-        pickerViewTopMargin.constant = pickerView.frame.height
-        UIView.animate(withDuration: 0.3,
-                       animations: { [weak self] in
-                        self?.view.layoutIfNeeded()
-        })
+    @IBAction private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        guard let view = recognizer.view else {
+            return
+        }
+        //Finding If finger movement was enough to hide as actionRatio reaches 1
+        let ytransition = recognizer.translation(in: view).y
+        let actionRatio = 1 - max(0,ytransition)/200
+        priorityBlurView.alpha = 0.9*actionRatio
+        pickerViewBottomConstraint.constant = actionRatio*pickerView.frame.height
+        //Doing Spring action to back to original if actionRatio is greater than 0.6
+        if recognizer.state == .ended {
+            _ = actionRatio > 0.6 ? selectPriority() : donePriority()
+        }
     }
     
-    @IBAction private func DonePriority() {
-        pickerViewTopMargin.constant = 0
-        UIView.animate(withDuration: 0.2, animations: { [weak self] in
-            self?.view.layoutIfNeeded()
+    @IBAction private func selectPriority() {
+        priorityView.isHidden = false
+        pickerViewBottomConstraint.constant = pickerView.frame.height
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut,
+                       animations: { [weak self] in
+                        self?.view.layoutIfNeeded()
+                        self?.priorityBlurView.alpha = 0.9
+            }, completion: nil)
+    }
+    
+    @IBAction private func donePriority() {
+        pickerViewBottomConstraint.constant = 0
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut,
+                       animations: { [weak self] in
+                        self?.view.layoutIfNeeded()
+                        self?.priorityBlurView.alpha = 0
             }, completion: { [weak self] _ in
-                self?.pickerView.isHidden = true
+                self?.priorityView.isHidden = true
         })
     }
     
     @IBAction private func saveData() {
         authenticateUser { [unowned self] in
+            //Checking if it's new todo then create and insert it in context
             guard let todo = self.todo else {
                 let object = Todo(entity: Todo.entity(),
                                   insertInto: self.context)
-                self.save(todo: object)
-                return
-            }
-            
-            guard let object = self.context.object(with: todo.objectID) as? Todo else {
                 DispatchQueue.main.async { [unowned self] in
-                    self.dismiss(animated: true,
-                    completion: nil)
+                    self.save(todo: object)
                 }
                 return
             }
-            self.save(todo: object)
+            
+            //If old todo exists then no need to create new one and insert,
+            //just update & save uncomitted
+            guard let object = self.context.object(with: todo.objectID) as? Todo else {
+                DispatchQueue.main.async { [unowned self] in
+                    self.dismiss(animated: true, completion: nil)
+                }
+                return
+            }
+            DispatchQueue.main.async { [unowned self] in
+                self.save(todo: object)
+            }
         }
+    }
+    
+    private func save(todo: Todo) {
+        todo.date = self.date
+        let priorityTitle = self.priorityLabel.text ?? Priority.getTitle(.interview)()
+        todo.priority = Priority.getPriorityFrom(title: priorityTitle)
+        todo.title = self.titleField.text ?? ""
+        todo.comments = self.commentsField.textColor == UIColor.black ? self.commentsField.text : ""
+        CoreDataStack.shared.save(context: self.context)
+        self.delegate?.added(todo: todo)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction private func deleteData() {

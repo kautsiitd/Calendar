@@ -13,10 +13,12 @@
                 <outlet property="commentsField" destination="n10-mH-exO" id="e2e-85-KYl"/>
                 <outlet property="dateLabel" destination="qLb-Gd-ftf" id="Kmg-6P-Lt8"/>
                 <outlet property="deleteButton" destination="DaM-a8-cFz" id="2hg-MN-d2f"/>
-                <outlet property="pickerView" destination="43V-pN-Ars" id="lKr-tz-fkp"/>
-                <outlet property="pickerViewTopMargin" destination="akr-fP-0uu" id="2HH-hC-01z"/>
+                <outlet property="pickerView" destination="7af-zC-aQ5" id="Nmg-Ot-Ffb"/>
+                <outlet property="pickerViewBottomConstraint" destination="s1p-cl-Lsf" id="21t-fh-0g3"/>
+                <outlet property="priorityBlurView" destination="KA4-vi-kYD" id="lKk-Nu-tlt"/>
                 <outlet property="priorityLabel" destination="Nxq-Cu-L8j" id="4js-LT-lyb"/>
                 <outlet property="priorityLabelColorView" destination="wux-iZ-Tuj" id="DmM-33-U5E"/>
+                <outlet property="priorityView" destination="43V-pN-Ars" id="qwy-1h-A6h"/>
                 <outlet property="saveButton" destination="Isg-Cp-j69" id="cOJ-Ds-f1D"/>
                 <outlet property="titleField" destination="7PR-nt-NDw" id="1SS-5j-spz"/>
                 <outlet property="view" destination="YEV-je-Pif" id="VbI-0J-9GT"/>
@@ -146,54 +148,79 @@
                         <action selector="deleteData" destination="-1" eventType="touchDown" id="IpO-fY-8Gi"/>
                     </connections>
                 </button>
-                <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PickerView">
-                    <rect key="frame" x="0.0" y="896" width="414" height="302"/>
+                <view opaque="NO" contentMode="scaleToFill" restorationIdentifier="PriorityView" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PriorityView">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <subviews>
-                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6iu-Po-PqP">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
-                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="XBD-OH-FN0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
+                        <visualEffectView opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KA4-vi-kYD">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="cln-vb-XXm">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
-                            <blurEffect style="regular"/>
-                        </visualEffectView>
-                        <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0g-R9-waZ">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <items>
-                                <barButtonItem style="plain" systemItem="flexibleSpace" id="S10-DD-33n"/>
-                                <barButtonItem style="done" systemItem="done" id="re1-Yg-rgH">
-                                    <connections>
-                                        <action selector="DonePriority" destination="-1" id="ITt-Lv-XLB"/>
-                                    </connections>
-                                </barButtonItem>
-                            </items>
-                        </toolbar>
-                        <pickerView contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="F7E-vc-yg8">
-                            <rect key="frame" x="0.0" y="44" width="414" height="258"/>
-                            <color key="backgroundColor" red="0.78431372549019607" green="0.792156862745098" blue="0.81568627450980391" alpha="0.79973591549295775" colorSpace="custom" customColorSpace="displayP3"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="258" id="7G2-kR-TB1"/>
-                            </constraints>
+                            <blurEffect style="systemUltraThinMaterial"/>
                             <connections>
-                                <outlet property="dataSource" destination="-1" id="96u-x3-6wY"/>
-                                <outlet property="delegate" destination="-1" id="Jae-aQ-3zv"/>
+                                <outletCollection property="gestureRecognizers" destination="yTq-Tz-wJm" appends="YES" id="Qhx-hY-Ig2"/>
                             </connections>
-                        </pickerView>
+                        </visualEffectView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7af-zC-aQ5" userLabel="PickerView">
+                            <rect key="frame" x="0.0" y="896" width="414" height="302"/>
+                            <subviews>
+                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6iu-Po-PqP">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
+                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="XBD-OH-FN0">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </view>
+                                    <blurEffect style="regular"/>
+                                </visualEffectView>
+                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0g-R9-waZ">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <items>
+                                        <barButtonItem style="plain" systemItem="flexibleSpace" id="S10-DD-33n"/>
+                                        <barButtonItem style="done" systemItem="done" id="re1-Yg-rgH">
+                                            <connections>
+                                                <action selector="donePriority" destination="-1" id="H35-3H-bM4"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </items>
+                                </toolbar>
+                                <pickerView contentMode="center" restorationIdentifier="PickerView" translatesAutoresizingMaskIntoConstraints="NO" id="F7E-vc-yg8">
+                                    <rect key="frame" x="0.0" y="44" width="414" height="258"/>
+                                    <color key="backgroundColor" red="0.78431372549019607" green="0.792156862745098" blue="0.81568627450980391" alpha="0.79973591549295775" colorSpace="custom" customColorSpace="displayP3"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="258" id="7G2-kR-TB1"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="dataSource" destination="-1" id="96u-x3-6wY"/>
+                                        <outlet property="delegate" destination="-1" id="Jae-aQ-3zv"/>
+                                    </connections>
+                                </pickerView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="6iu-Po-PqP" firstAttribute="top" secondItem="7af-zC-aQ5" secondAttribute="top" id="1bx-qb-teQ"/>
+                                <constraint firstAttribute="bottom" secondItem="6iu-Po-PqP" secondAttribute="bottom" id="3xk-eZ-Tyk"/>
+                                <constraint firstAttribute="bottom" secondItem="F7E-vc-yg8" secondAttribute="bottom" id="5Fq-ky-NGY"/>
+                                <constraint firstItem="a0g-R9-waZ" firstAttribute="leading" secondItem="7af-zC-aQ5" secondAttribute="leading" id="Aoa-oS-fzm"/>
+                                <constraint firstItem="a0g-R9-waZ" firstAttribute="top" secondItem="7af-zC-aQ5" secondAttribute="top" id="NLM-nI-ggS"/>
+                                <constraint firstAttribute="trailing" secondItem="F7E-vc-yg8" secondAttribute="trailing" id="Px8-5B-4TP"/>
+                                <constraint firstItem="F7E-vc-yg8" firstAttribute="leading" secondItem="7af-zC-aQ5" secondAttribute="leading" id="Uiz-z5-lef"/>
+                                <constraint firstAttribute="trailing" secondItem="a0g-R9-waZ" secondAttribute="trailing" id="VGy-Bw-d3P"/>
+                                <constraint firstItem="6iu-Po-PqP" firstAttribute="leading" secondItem="7af-zC-aQ5" secondAttribute="leading" id="Yxb-oV-8pf"/>
+                                <constraint firstAttribute="trailing" secondItem="6iu-Po-PqP" secondAttribute="trailing" id="f90-6e-CM8"/>
+                                <constraint firstItem="F7E-vc-yg8" firstAttribute="top" secondItem="a0g-R9-waZ" secondAttribute="bottom" id="k1c-yh-rAW"/>
+                            </constraints>
+                        </view>
                     </subviews>
+                    <gestureRecognizers/>
                     <constraints>
-                        <constraint firstItem="F7E-vc-yg8" firstAttribute="top" secondItem="a0g-R9-waZ" secondAttribute="bottom" id="2GW-vP-xCW"/>
-                        <constraint firstAttribute="bottom" secondItem="6iu-Po-PqP" secondAttribute="bottom" id="3HZ-AV-mqc"/>
-                        <constraint firstItem="6iu-Po-PqP" firstAttribute="leading" secondItem="43V-pN-Ars" secondAttribute="leading" id="4Qd-mH-NBJ"/>
-                        <constraint firstAttribute="bottom" secondItem="F7E-vc-yg8" secondAttribute="bottom" id="5HF-XY-Zze"/>
-                        <constraint firstItem="6iu-Po-PqP" firstAttribute="top" secondItem="43V-pN-Ars" secondAttribute="top" id="6Tq-W7-plI"/>
-                        <constraint firstAttribute="trailing" secondItem="6iu-Po-PqP" secondAttribute="trailing" id="7h1-gn-bFM"/>
-                        <constraint firstItem="a0g-R9-waZ" firstAttribute="width" secondItem="43V-pN-Ars" secondAttribute="width" id="Udi-vR-cKe"/>
-                        <constraint firstItem="a0g-R9-waZ" firstAttribute="top" secondItem="43V-pN-Ars" secondAttribute="top" id="XAu-1r-Eih"/>
-                        <constraint firstItem="F7E-vc-yg8" firstAttribute="width" secondItem="43V-pN-Ars" secondAttribute="width" id="dZ3-Mf-tKt"/>
-                        <constraint firstItem="F7E-vc-yg8" firstAttribute="width" secondItem="43V-pN-Ars" secondAttribute="width" id="mtP-2p-VtZ"/>
-                        <constraint firstItem="F7E-vc-yg8" firstAttribute="centerX" secondItem="43V-pN-Ars" secondAttribute="centerX" id="npT-Bm-FTl"/>
-                        <constraint firstItem="a0g-R9-waZ" firstAttribute="centerX" secondItem="43V-pN-Ars" secondAttribute="centerX" id="xoH-KI-ntQ"/>
+                        <constraint firstAttribute="trailing" secondItem="7af-zC-aQ5" secondAttribute="trailing" id="D2E-1J-XZY"/>
+                        <constraint firstItem="7af-zC-aQ5" firstAttribute="top" secondItem="KA4-vi-kYD" secondAttribute="bottom" id="N69-2W-B7h"/>
+                        <constraint firstItem="7af-zC-aQ5" firstAttribute="leading" secondItem="43V-pN-Ars" secondAttribute="leading" id="TLa-VF-fnv"/>
+                        <constraint firstItem="KA4-vi-kYD" firstAttribute="top" secondItem="43V-pN-Ars" secondAttribute="top" id="eqX-OK-rFI"/>
+                        <constraint firstAttribute="trailing" secondItem="KA4-vi-kYD" secondAttribute="trailing" id="jf3-SS-3j5"/>
+                        <constraint firstItem="KA4-vi-kYD" firstAttribute="leading" secondItem="43V-pN-Ars" secondAttribute="leading" id="oMz-V6-lNa"/>
+                        <constraint firstAttribute="bottom" secondItem="7af-zC-aQ5" secondAttribute="top" id="s1p-cl-Lsf"/>
                     </constraints>
                 </view>
             </subviews>
@@ -202,6 +229,7 @@
                 <constraint firstItem="qLb-Gd-ftf" firstAttribute="top" secondItem="Wuj-Eq-hmp" secondAttribute="top" constant="30" id="4Je-UX-koz"/>
                 <constraint firstItem="Isg-Cp-j69" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DaM-a8-cFz" secondAttribute="trailing" constant="40" id="4My-OB-taW"/>
                 <constraint firstItem="Wuj-Eq-hmp" firstAttribute="trailing" secondItem="ELo-hr-aDx" secondAttribute="trailing" constant="20" id="7yq-MD-kKk"/>
+                <constraint firstAttribute="bottom" secondItem="43V-pN-Ars" secondAttribute="bottom" id="FiS-kD-sc8"/>
                 <constraint firstItem="Wuj-Eq-hmp" firstAttribute="trailing" secondItem="Dg1-8e-CtQ" secondAttribute="trailing" id="HQ8-g4-is2"/>
                 <constraint firstItem="Dg1-8e-CtQ" firstAttribute="top" secondItem="qLb-Gd-ftf" secondAttribute="bottom" constant="20" id="Q55-9Y-Dol"/>
                 <constraint firstItem="DaM-a8-cFz" firstAttribute="leading" secondItem="Wuj-Eq-hmp" secondAttribute="leading" constant="40" id="QRh-uX-w4j"/>
@@ -209,7 +237,7 @@
                 <constraint firstItem="Dg1-8e-CtQ" firstAttribute="leading" secondItem="Wuj-Eq-hmp" secondAttribute="leading" id="WOP-Jw-xae"/>
                 <constraint firstItem="Isg-Cp-j69" firstAttribute="top" secondItem="Dg1-8e-CtQ" secondAttribute="bottom" constant="30" id="XTr-ca-auO"/>
                 <constraint firstItem="ELo-hr-aDx" firstAttribute="centerY" secondItem="qLb-Gd-ftf" secondAttribute="centerY" id="aWt-45-I3y"/>
-                <constraint firstAttribute="bottom" secondItem="43V-pN-Ars" secondAttribute="top" id="akr-fP-0uu"/>
+                <constraint firstAttribute="top" secondItem="43V-pN-Ars" secondAttribute="top" id="akr-fP-0uu"/>
                 <constraint firstItem="DaM-a8-cFz" firstAttribute="centerY" secondItem="Isg-Cp-j69" secondAttribute="centerY" id="e2A-pd-hcS"/>
                 <constraint firstItem="ELo-hr-aDx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qLb-Gd-ftf" secondAttribute="trailing" constant="40" id="gnV-ZO-QM9"/>
                 <constraint firstAttribute="trailing" secondItem="Isg-Cp-j69" secondAttribute="trailing" constant="40" id="mue-bQ-OCv"/>
@@ -226,5 +254,11 @@
                 <action selector="selectPriority" destination="-1" id="J8A-uH-zeK"/>
             </connections>
         </tapGestureRecognizer>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="yTq-Tz-wJm">
+            <connections>
+                <action selector="handlePan:" destination="-1" id="C4u-u1-nHr"/>
+                <outlet property="delegate" destination="-1" id="HoZ-cZ-Sxx"/>
+            </connections>
+        </panGestureRecognizer>
     </objects>
 </document>
