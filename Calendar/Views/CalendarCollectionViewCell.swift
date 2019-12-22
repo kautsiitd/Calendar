@@ -15,11 +15,13 @@ class CalendarCollectionViewCell: UICollectionViewCell {
 	
 	// MARK: Elements
 	@IBOutlet private weak var dateLabel: UILabel!
-    @IBOutlet private weak var taskView: UIView!
+    @IBOutlet private weak var priorityView: UIView!
     
     override func awakeFromNib() {
         dateLabel.text = ""
-        taskView.layer.cornerRadius = 3
+        dateLabel.layer.cornerRadius = 15
+        dateLabel.layer.masksToBounds = true
+        priorityView.layer.cornerRadius = 3
     }
 	
 	override func prepareForReuse() {
@@ -27,25 +29,27 @@ class CalendarCollectionViewCell: UICollectionViewCell {
 		dateLabel.textColor = UIColor.black
         dateLabel.font = UIFont.systemFont(ofSize: 17)
         dateLabel.backgroundColor = UIColor.white
-        taskView.backgroundColor = UIColor.white
+        priorityView.backgroundColor = UIColor.white
 	}
 	
-    func setCell(date: Date, isTodo: Bool) {
+    func setCell(date: Date, todo: Todo?) {
         self.date = date
 		dateLabel.text = "\(Calendar.current.dateComponents([.day], from: date).day!)"
-		let day = Calendar.current.component(.weekday, from: date)
+		
+        //Marking Weekends
+        let day = Calendar.current.component(.weekday, from: date)
 		if(day == 1 || day == 7) {
 			dateLabel.textColor = UIColor.red
 		}
         
+        //Marking Current Date
         if Calendar.current.isDateInToday(date) {
-            dateLabel.layer.cornerRadius = 15
-            dateLabel.layer.masksToBounds = true
             dateLabel.textColor = UIColor.white
             dateLabel.font = UIFont.boldSystemFont(ofSize: 17)
             dateLabel.backgroundColor = UIColor.red
         }
         
-        taskView.backgroundColor = isTodo ? UIColor.red : UIColor.white
+        //Marking Todos Dates
+        priorityView.backgroundColor = todo?.priority.getColor() ?? UIColor.white
 	}
 }

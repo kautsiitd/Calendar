@@ -19,11 +19,14 @@ class TaskViewController: UIViewController {
     private var todo: Todo?
     
     //MARK: Elements
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var priorityLabel: UILabel!
+    @IBOutlet private weak var priorityLabelColorView: UIView!
     @IBOutlet private weak var titleField: UITextField!
     @IBOutlet private weak var commentsField: UITextView!
-    @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var saveButton: UIButton!
     @IBOutlet private weak var deleteButton: UIButton!
+    @IBOutlet private weak var priorityPickerView: UIView!
     
     init(delegate: TodoProtocol?, date: Date, todos: Todo?) {
         self.delegate = delegate
@@ -33,23 +36,35 @@ class TaskViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        self.delegate = nil
-        self.date = Date()
-        self.todo = Todo()
-        super.init(coder: coder)
+        fatalError("Method not Implemented!")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        saveButton.layer.cornerRadius = 5
-        deleteButton.layer.cornerRadius = 5
-        deleteButton.isHidden = (todo == nil)
+        setLayouts()
         setData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        var frame = self.priorityPickerView.frame
+        frame.origin.y += frame.height
+        self.priorityPickerView.frame = frame
+    }
+    
+    private func setLayouts() {
+        priorityLabelColorView.layer.cornerRadius = 3
+        saveButton.layer.cornerRadius = 5
+        deleteButton.layer.cornerRadius = 5
+        deleteButton.isHidden = (todo == nil)
+        priorityPickerView.isHidden = true
+    }
+    
     private func setData() {
-        titleField.text = todo?.title ?? ""
         dateLabel.text = date.convertTo(string: "MMM d, yyyy")
+        priorityLabel.text = todo?.priority.getTitle() ?? Priority.getTitle(.interview)()
+        priorityLabelColorView.backgroundColor = todo?.priority.getColor() ?? Priority.getColor(.interview)()
+        titleField.text = todo?.title ?? ""
         guard let comment = todo?.comments,
             comment != "" else {
                 commentsField.text = "Comments"
@@ -58,6 +73,51 @@ class TaskViewController: UIViewController {
         }
         commentsField.text = comment
         commentsField.textColor = UIColor.black
+    }
+    
+    private func save(todo: Todo) {
+        DispatchQueue.main.async {
+            todo.date = self.date
+            let priorityColor = self.priorityLabelColorView.backgroundColor ?? Priority.getColor(.interview)()
+            todo.priority = Priority.getPriorityFrom(color: priorityColor)
+            todo.title = self.titleField.text ?? ""
+            todo.comments = self.commentsField.textColor == UIColor.black ? self.commentsField.text : ""
+        }
+        CoreDataStack.shared.save(context: self.context)
+        self.delegate?.added(todo: todo)
+        DispatchQueue.main.async { [unowned self] in
+            self.dismiss(animated: true,
+            completion: nil)
+        }
+    }
+    
+    deinit {
+        view.endEditing(true)
+    }
+}
+
+//MARK: IBActions
+extension TaskViewController {
+    @IBAction private func selectPriority() {
+        if !priorityPickerView.isHidden {
+            return
+        }
+        priorityPickerView.isHidden = false
+        UIView.animate(withDuration: 0.3, animations: { [unowned self] in
+            var frame = self.priorityPickerView.frame
+            frame.origin.y -= frame.height
+            self.priorityPickerView.frame = frame
+        })
+    }
+    
+    @IBAction private func DonePriority() {
+        UIView.animate(withDuration: 0.2, animations: { [unowned self] in
+            var frame = self.priorityPickerView.frame
+            frame.origin.y += frame.height
+            self.priorityPickerView.frame = frame
+            }, completion: { _ in
+                self.priorityPickerView.isHidden = true
+        })
     }
     
     @IBAction private func saveData() {
@@ -80,20 +140,6 @@ class TaskViewController: UIViewController {
         }
     }
     
-    private func save(todo: Todo) {
-        DispatchQueue.main.async {
-            todo.date = self.date
-            todo.title = self.titleField.text ?? ""
-            todo.comments = self.commentsField.textColor == UIColor.black ? self.commentsField.text : ""
-        }
-        CoreDataStack.shared.save(context: self.context)
-        self.delegate?.added(todo: todo)
-        DispatchQueue.main.async { [unowned self] in
-            self.dismiss(animated: true,
-            completion: nil)
-        }
-    }
-    
     @IBAction private func deleteData() {
         guard let todo = todo else {
             return
@@ -108,9 +154,18 @@ class TaskViewController: UIViewController {
             }
         }
     }
-    
-    deinit {
-        view.endEditing(true)
+}
+
+//MARK: LocalAuthentication
+extension TaskViewController {
+    func authenticateUser(completion: @escaping () -> Void) {
+        let context = LAContext()
+        let reason = "Please verify to make changes"
+        context.evaluatePolicy(.deviceOwnerAuthentication,
+                               localizedReason: reason,
+                               reply: { success, error in
+                                if success{ completion() }
+        })
     }
 }
 
@@ -139,15 +194,25 @@ extension TaskViewController: UITextViewDelegate {
     }
 }
 
-//MARK: LocalAuthentication
-extension TaskViewController {
-    func authenticateUser(completion: @escaping () -> Void) {
-        let context = LAContext()
-        let reason = "Please verify to make changes"
-        context.evaluatePolicy(.deviceOwnerAuthentication,
-                               localizedReason: reason,
-                               reply: { success, error in
-                                if success{ completion() }
-        })
+//MARK: UIPickerViewDataSource
+extension TaskViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Priority.allCases.count
+    }
+}
+
+//MARK: UIPickerViewDelegate
+extension TaskViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return Priority.getTitle(Priority(rawValue: row)!)()
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        priorityLabel.text = Priority.getTitle(Priority(rawValue: row)!)()
+        priorityLabelColorView.backgroundColor = Priority.getColor(Priority(rawValue: row)!)()
     }
 }

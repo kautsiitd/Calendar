@@ -77,9 +77,8 @@ extension CalendarTableViewCell: UICollectionViewDataSource {
             }
 			if (indexPath.row >= self.offset) && (indexPath.row < self.numberOfDates+self.offset) {
                 let date = self.datesOfMonth![indexPath.row-self.offset]
-                let isTodo = self.todos[date.uniqueId()] != nil
 				cell.setCell(date: date,
-                             isTodo: isTodo)
+                             todo: self.todos[date.uniqueId()])
 			}
 		}
 		return cell

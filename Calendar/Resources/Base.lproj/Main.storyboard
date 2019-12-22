@@ -53,11 +53,19 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zli-C2-6Ql">
-                                                    <rect key="frame" x="308" y="17" width="42" height="24"/>
+                                                    <rect key="frame" x="287" y="17" width="42" height="24"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="99h-BV-1yQ" userLabel="Priority">
+                                                    <rect key="frame" x="344" y="26" width="6" height="6"/>
+                                                    <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="6" id="1Ic-ic-M9V"/>
+                                                        <constraint firstAttribute="width" secondItem="99h-BV-1yQ" secondAttribute="height" multiplier="1:1" id="6cl-q5-rLH"/>
+                                                    </constraints>
+                                                </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9uC-2f-KIy">
                                                     <rect key="frame" x="20" y="50.5" width="335" height="1"/>
                                                     <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,30 +74,33 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Content" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VUB-rY-vwX">
-                                                    <rect key="frame" x="25" y="66.5" width="325" height="66.5"/>
+                                                    <rect key="frame" x="25" y="66.5" width="304" height="66.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="99h-BV-1yQ" secondAttribute="trailing" constant="25" id="1FK-ec-Ibw"/>
                                                 <constraint firstItem="Zli-C2-6Ql" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ezZ-gi-caX" secondAttribute="trailing" constant="40" id="6nM-BS-aCs"/>
                                                 <constraint firstItem="ezZ-gi-caX" firstAttribute="leading" secondItem="10s-e2-ESb" secondAttribute="leading" constant="20" id="Iqz-oO-aqg"/>
                                                 <constraint firstItem="VUB-rY-vwX" firstAttribute="trailing" secondItem="Zli-C2-6Ql" secondAttribute="trailing" id="ItT-Yy-YJB"/>
-                                                <constraint firstAttribute="trailing" secondItem="Zli-C2-6Ql" secondAttribute="trailing" constant="25" id="Og1-vY-JRM"/>
-                                                <constraint firstItem="9uC-2f-KIy" firstAttribute="trailing" secondItem="Zli-C2-6Ql" secondAttribute="trailing" constant="5" id="RoC-my-fwx"/>
+                                                <constraint firstItem="99h-BV-1yQ" firstAttribute="centerY" secondItem="Zli-C2-6Ql" secondAttribute="centerY" id="KQ3-DU-kiR"/>
                                                 <constraint firstItem="VUB-rY-vwX" firstAttribute="top" secondItem="9uC-2f-KIy" secondAttribute="bottom" constant="15" id="SQ6-iB-HQt"/>
+                                                <constraint firstItem="9uC-2f-KIy" firstAttribute="trailing" secondItem="99h-BV-1yQ" secondAttribute="trailing" constant="5" id="WoV-mz-Cqa"/>
                                                 <constraint firstItem="ezZ-gi-caX" firstAttribute="top" secondItem="10s-e2-ESb" secondAttribute="top" constant="20" id="dS3-Ph-cMw"/>
                                                 <constraint firstItem="9uC-2f-KIy" firstAttribute="leading" secondItem="ezZ-gi-caX" secondAttribute="leading" id="fFi-SB-69T"/>
                                                 <constraint firstItem="VUB-rY-vwX" firstAttribute="leading" secondItem="ezZ-gi-caX" secondAttribute="leading" constant="5" id="iVd-zq-7PO"/>
                                                 <constraint firstAttribute="bottom" secondItem="VUB-rY-vwX" secondAttribute="bottom" id="n6p-U5-MLl"/>
                                                 <constraint firstItem="9uC-2f-KIy" firstAttribute="top" secondItem="ezZ-gi-caX" secondAttribute="bottom" constant="10" id="nij-rm-zTn"/>
+                                                <constraint firstItem="99h-BV-1yQ" firstAttribute="leading" secondItem="Zli-C2-6Ql" secondAttribute="trailing" constant="15" id="qP5-YU-Oxy"/>
                                                 <constraint firstItem="Zli-C2-6Ql" firstAttribute="firstBaseline" secondItem="ezZ-gi-caX" secondAttribute="firstBaseline" id="yFR-Pa-6DM"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="contentLabel" destination="VUB-rY-vwX" id="8Kk-XF-d1E"/>
                                             <outlet property="dateLabel" destination="ezZ-gi-caX" id="tTr-dZ-qiw"/>
+                                            <outlet property="priorityView" destination="99h-BV-1yQ" id="Xpm-v2-YQX"/>
                                             <outlet property="titleLabel" destination="Zli-C2-6Ql" id="gWL-ns-4yG"/>
                                         </connections>
                                     </tableViewCell>
@@ -280,7 +291,7 @@
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="dateLabel" destination="b53-b9-4xI" id="sR7-yS-NPA"/>
-                                                                <outlet property="taskView" destination="RpO-DH-61K" id="iiM-MB-yX6"/>
+                                                                <outlet property="priorityView" destination="RpO-DH-61K" id="FJh-M1-bTD"/>
                                                             </connections>
                                                         </collectionViewCell>
                                                     </cells>
