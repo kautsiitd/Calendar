@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		634BF8D723AF233C00A31B98 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634BF8D623AF233C00A31B98 /* UIColor.swift */; };
 		638D101A23869809005C4310 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638D101823869809005C4310 /* TaskViewController.swift */; };
 		6394D2C723A04E57004FD487 /* Calendar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6394D2C523A04E57004FD487 /* Calendar.xcdatamodeld */; };
 		6394D2CC23A04FF1004FD487 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6394D2CB23A04FF1004FD487 /* CoreDataStack.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		634BF8D623AF233C00A31B98 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UIColor.swift; path = Extensions/UIColor.swift; sourceTree = "<group>"; };
 		638D101823869809005C4310 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TaskViewController.swift; path = ViewControllers/TaskViewController.swift; sourceTree = "<group>"; };
 		6394D2C623A04E57004FD487 /* Calendar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Calendar.xcdatamodel; sourceTree = "<group>"; };
 		6394D2CB23A04FF1004FD487 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				F295A0E31FBDB9D8006F3CEE /* Date.swift */,
 				639DD31123A30F2F00D15E6E /* UITextView.swift */,
+				634BF8D623AF233C00A31B98 /* UIColor.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63B5929223AE842900D5E82A /* TodosViewController.swift in Sources */,
+				634BF8D723AF233C00A31B98 /* UIColor.swift in Sources */,
 				639DD31223A30F2F00D15E6E /* UITextView.swift in Sources */,
 				F2FA89AA1FC2621800712198 /* CalendarCollectionViewCell.swift in Sources */,
 				F295A0E41FBDB9D8006F3CEE /* Date.swift in Sources */,
