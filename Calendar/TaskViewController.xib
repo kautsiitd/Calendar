@@ -69,7 +69,7 @@
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="7PR-nt-NDw">
                             <rect key="frame" x="20" y="0.0" width="374" height="24"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="fZg-dy-jzh"/>
                             </connections>
@@ -146,18 +146,19 @@
                     </connections>
                 </button>
                 <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PickerView">
-                    <rect key="frame" x="0.0" y="612" width="414" height="284"/>
+                    <rect key="frame" x="0.0" y="594" width="414" height="302"/>
                     <subviews>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6iu-Po-PqP">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="284"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="XBD-OH-FN0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="284"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                             <blurEffect style="regular"/>
                         </visualEffectView>
                         <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0g-R9-waZ">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <items>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="S10-DD-33n"/>
                                 <barButtonItem style="done" systemItem="done" id="re1-Yg-rgH">
@@ -167,11 +168,11 @@
                                 </barButtonItem>
                             </items>
                         </toolbar>
-                        <pickerView alpha="0.80000000000000004" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="F7E-vc-yg8">
-                            <rect key="frame" x="0.0" y="44" width="414" height="240"/>
-                            <color key="backgroundColor" red="0.81568627450980391" green="0.82352941176470584" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <pickerView contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="F7E-vc-yg8">
+                            <rect key="frame" x="0.0" y="44" width="414" height="258"/>
+                            <color key="backgroundColor" red="0.78431372549019607" green="0.792156862745098" blue="0.81568627450980391" alpha="0.79973591549295775" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="240" id="7G2-kR-TB1"/>
+                                <constraint firstAttribute="height" constant="258" id="7G2-kR-TB1"/>
                             </constraints>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="96u-x3-6wY"/>
