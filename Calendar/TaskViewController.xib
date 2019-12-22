@@ -13,9 +13,10 @@
                 <outlet property="commentsField" destination="n10-mH-exO" id="e2e-85-KYl"/>
                 <outlet property="dateLabel" destination="qLb-Gd-ftf" id="Kmg-6P-Lt8"/>
                 <outlet property="deleteButton" destination="DaM-a8-cFz" id="2hg-MN-d2f"/>
+                <outlet property="pickerView" destination="43V-pN-Ars" id="lKr-tz-fkp"/>
+                <outlet property="pickerViewTopMargin" destination="akr-fP-0uu" id="2HH-hC-01z"/>
                 <outlet property="priorityLabel" destination="Nxq-Cu-L8j" id="4js-LT-lyb"/>
                 <outlet property="priorityLabelColorView" destination="wux-iZ-Tuj" id="DmM-33-U5E"/>
-                <outlet property="priorityPickerView" destination="43V-pN-Ars" id="xIg-Dg-H3q"/>
                 <outlet property="saveButton" destination="Isg-Cp-j69" id="cOJ-Ds-f1D"/>
                 <outlet property="titleField" destination="7PR-nt-NDw" id="1SS-5j-spz"/>
                 <outlet property="view" destination="YEV-je-Pif" id="VbI-0J-9GT"/>
@@ -146,7 +147,7 @@
                     </connections>
                 </button>
                 <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PickerView">
-                    <rect key="frame" x="0.0" y="594" width="414" height="302"/>
+                    <rect key="frame" x="0.0" y="896" width="414" height="302"/>
                     <subviews>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6iu-Po-PqP">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="302"/>
@@ -208,10 +209,10 @@
                 <constraint firstItem="Dg1-8e-CtQ" firstAttribute="leading" secondItem="Wuj-Eq-hmp" secondAttribute="leading" id="WOP-Jw-xae"/>
                 <constraint firstItem="Isg-Cp-j69" firstAttribute="top" secondItem="Dg1-8e-CtQ" secondAttribute="bottom" constant="30" id="XTr-ca-auO"/>
                 <constraint firstItem="ELo-hr-aDx" firstAttribute="centerY" secondItem="qLb-Gd-ftf" secondAttribute="centerY" id="aWt-45-I3y"/>
+                <constraint firstAttribute="bottom" secondItem="43V-pN-Ars" secondAttribute="top" id="akr-fP-0uu"/>
                 <constraint firstItem="DaM-a8-cFz" firstAttribute="centerY" secondItem="Isg-Cp-j69" secondAttribute="centerY" id="e2A-pd-hcS"/>
                 <constraint firstItem="ELo-hr-aDx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="qLb-Gd-ftf" secondAttribute="trailing" constant="40" id="gnV-ZO-QM9"/>
                 <constraint firstAttribute="trailing" secondItem="Isg-Cp-j69" secondAttribute="trailing" constant="40" id="mue-bQ-OCv"/>
-                <constraint firstItem="43V-pN-Ars" firstAttribute="bottom" secondItem="YEV-je-Pif" secondAttribute="bottom" id="oge-Me-eAk"/>
                 <constraint firstItem="qLb-Gd-ftf" firstAttribute="leading" secondItem="Wuj-Eq-hmp" secondAttribute="leading" constant="20" id="qOf-Hx-wXi"/>
                 <constraint firstItem="Wuj-Eq-hmp" firstAttribute="bottom" secondItem="Isg-Cp-j69" secondAttribute="bottom" constant="30" id="rhj-Tw-ud8"/>
                 <constraint firstAttribute="leading" secondItem="43V-pN-Ars" secondAttribute="leading" id="sBj-at-od8"/>

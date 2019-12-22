@@ -26,7 +26,10 @@ class TaskViewController: UIViewController {
     @IBOutlet private weak var commentsField: UITextView!
     @IBOutlet private weak var saveButton: UIButton!
     @IBOutlet private weak var deleteButton: UIButton!
-    @IBOutlet private weak var priorityPickerView: UIView!
+    @IBOutlet private weak var pickerView: UIView!
+    
+    //MARK: Constraints
+    @IBOutlet private weak var pickerViewTopMargin: NSLayoutConstraint!
     
     init(delegate: TodoProtocol?, date: Date, todos: Todo?) {
         self.delegate = delegate
@@ -45,19 +48,12 @@ class TaskViewController: UIViewController {
         setData()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        var frame = self.priorityPickerView.frame
-        frame.origin.y += frame.height
-        self.priorityPickerView.frame = frame
-    }
-    
     private func setLayouts() {
         priorityLabelColorView.layer.cornerRadius = 3
         saveButton.layer.cornerRadius = 5
         deleteButton.layer.cornerRadius = 5
         deleteButton.isHidden = (todo == nil)
-        priorityPickerView.isHidden = true
+        pickerView.isHidden = true
     }
     
     private func setData() {
@@ -99,24 +95,20 @@ class TaskViewController: UIViewController {
 //MARK: IBActions
 extension TaskViewController {
     @IBAction private func selectPriority() {
-        if !priorityPickerView.isHidden {
-            return
-        }
-        priorityPickerView.isHidden = false
-        UIView.animate(withDuration: 0.3, animations: { [unowned self] in
-            var frame = self.priorityPickerView.frame
-            frame.origin.y -= frame.height
-            self.priorityPickerView.frame = frame
+        pickerView.isHidden = false
+        pickerViewTopMargin.constant = pickerView.frame.height
+        UIView.animate(withDuration: 0.3,
+                       animations: { [weak self] in
+                        self?.view.layoutIfNeeded()
         })
     }
     
     @IBAction private func DonePriority() {
-        UIView.animate(withDuration: 0.2, animations: { [unowned self] in
-            var frame = self.priorityPickerView.frame
-            frame.origin.y += frame.height
-            self.priorityPickerView.frame = frame
-            }, completion: { _ in
-                self.priorityPickerView.isHidden = true
+        pickerViewTopMargin.constant = 0
+        UIView.animate(withDuration: 0.2, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+            }, completion: { [weak self] _ in
+                self?.pickerView.isHidden = true
         })
     }
     
