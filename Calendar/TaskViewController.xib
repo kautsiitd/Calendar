@@ -145,9 +145,17 @@
                         <action selector="deleteData" destination="-1" eventType="touchDown" id="IpO-fY-8Gi"/>
                     </connections>
                 </button>
-                <view opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PickerView">
+                <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PickerView">
                     <rect key="frame" x="0.0" y="612" width="414" height="284"/>
                     <subviews>
+                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6iu-Po-PqP">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="284"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="XBD-OH-FN0">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="284"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </view>
+                            <blurEffect style="regular"/>
+                        </visualEffectView>
                         <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a0g-R9-waZ">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <items>
@@ -159,7 +167,7 @@
                                 </barButtonItem>
                             </items>
                         </toolbar>
-                        <pickerView contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="F7E-vc-yg8">
+                        <pickerView alpha="0.80000000000000004" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="F7E-vc-yg8">
                             <rect key="frame" x="0.0" y="44" width="414" height="240"/>
                             <color key="backgroundColor" red="0.81568627450980391" green="0.82352941176470584" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
@@ -173,7 +181,11 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="F7E-vc-yg8" firstAttribute="top" secondItem="a0g-R9-waZ" secondAttribute="bottom" id="2GW-vP-xCW"/>
+                        <constraint firstAttribute="bottom" secondItem="6iu-Po-PqP" secondAttribute="bottom" id="3HZ-AV-mqc"/>
+                        <constraint firstItem="6iu-Po-PqP" firstAttribute="leading" secondItem="43V-pN-Ars" secondAttribute="leading" id="4Qd-mH-NBJ"/>
                         <constraint firstAttribute="bottom" secondItem="F7E-vc-yg8" secondAttribute="bottom" id="5HF-XY-Zze"/>
+                        <constraint firstItem="6iu-Po-PqP" firstAttribute="top" secondItem="43V-pN-Ars" secondAttribute="top" id="6Tq-W7-plI"/>
+                        <constraint firstAttribute="trailing" secondItem="6iu-Po-PqP" secondAttribute="trailing" id="7h1-gn-bFM"/>
                         <constraint firstItem="a0g-R9-waZ" firstAttribute="width" secondItem="43V-pN-Ars" secondAttribute="width" id="Udi-vR-cKe"/>
                         <constraint firstItem="a0g-R9-waZ" firstAttribute="top" secondItem="43V-pN-Ars" secondAttribute="top" id="XAu-1r-Eih"/>
                         <constraint firstItem="F7E-vc-yg8" firstAttribute="width" secondItem="43V-pN-Ars" secondAttribute="width" id="dZ3-Mf-tKt"/>
