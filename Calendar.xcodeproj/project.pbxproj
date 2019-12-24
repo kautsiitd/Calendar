@@ -64,14 +64,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6394D2CA23A04FA9004FD487 /* Model */ = {
+		6394D2CA23A04FA9004FD487 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				6394D2CB23A04FF1004FD487 /* CoreDataStack.swift */,
 				6394D2CD23A05789004FD487 /* Todo.swift */,
 				63B5929323AE84A300D5E82A /* Todos.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		639DD30F23A2EC5D00D15E6E /* Resources */ = {
@@ -125,7 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				639DD30F23A2EC5D00D15E6E /* Resources */,
-				6394D2CA23A04FA9004FD487 /* Model */,
+				6394D2CA23A04FA9004FD487 /* Models */,
 				F295A0E21FBDB9BA006F3CEE /* Extensions */,
 				F2E0C8C81FBCC6880072A0CF /* Views */,
 				F2E0C8C51FBCC64C0072A0CF /* ViewControllers */,
