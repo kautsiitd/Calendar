@@ -16,20 +16,20 @@ class TodosTableViewCell: UITableViewCell {
     @IBOutlet private weak var contentLabel: UILabel!
     
     override func awakeFromNib() {
-        priorityView.layer.cornerRadius = 3
+        priorityView.layer.cornerRadius = priorityView.frame.width/2
     }
     
     override func prepareForReuse() {
         dateLabel.text = ""
-        priorityView.backgroundColor = UIColor.white
+        priorityView.backgroundColor = .white
         titleLabel.text = ""
         contentLabel.text = ""
     }
     
     func setCell(todo: Todo) {
-        dateLabel.text = todo.date.uniqueId()
-        priorityView.backgroundColor = todo.priority.getColor()
+        dateLabel.text = todo.date.convertTo(string: "MMM d, yyyy")
         titleLabel.text = todo.title
+        priorityView.backgroundColor = todo.priority.getColor()
         contentLabel.text = todo.comments
     }
 }
