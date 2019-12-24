@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum TodosKey {
     case date
@@ -29,6 +30,10 @@ class Todos {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
+    }
+    
+    func saveTodosIn(context: NSManagedObjectContext) {
+        CoreDataStack.shared.save(context: context)
     }
     
     func getTodosDictWith(key: TodosKey) -> [String: Todo] {

@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,8 +12,9 @@
                 <outlet property="commentsField" destination="n10-mH-exO" id="e2e-85-KYl"/>
                 <outlet property="dateLabel" destination="qLb-Gd-ftf" id="Kmg-6P-Lt8"/>
                 <outlet property="deleteButton" destination="DaM-a8-cFz" id="2hg-MN-d2f"/>
-                <outlet property="pickerView" destination="7af-zC-aQ5" id="Nmg-Ot-Ffb"/>
+                <outlet property="pickerView" destination="F7E-vc-yg8" id="eKN-3O-aE0"/>
                 <outlet property="pickerViewBottomConstraint" destination="s1p-cl-Lsf" id="21t-fh-0g3"/>
+                <outlet property="pickerViewWithToolBar" destination="7af-zC-aQ5" id="hUf-MK-IWf"/>
                 <outlet property="priorityBlurView" destination="KA4-vi-kYD" id="lKk-Nu-tlt"/>
                 <outlet property="priorityLabel" destination="Nxq-Cu-L8j" id="4js-LT-lyb"/>
                 <outlet property="priorityLabelColorView" destination="wux-iZ-Tuj" id="DmM-33-U5E"/>
@@ -148,7 +148,7 @@
                         <action selector="deleteData" destination="-1" eventType="touchDown" id="IpO-fY-8Gi"/>
                     </connections>
                 </button>
-                <view opaque="NO" contentMode="scaleToFill" restorationIdentifier="PriorityView" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PriorityView">
+                <view hidden="YES" opaque="NO" contentMode="scaleToFill" restorationIdentifier="PriorityView" translatesAutoresizingMaskIntoConstraints="NO" id="43V-pN-Ars" userLabel="PriorityView">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <subviews>
                         <visualEffectView opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KA4-vi-kYD">
@@ -158,9 +158,6 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                             <blurEffect style="systemUltraThinMaterial"/>
-                            <connections>
-                                <outletCollection property="gestureRecognizers" destination="yTq-Tz-wJm" appends="YES" id="Qhx-hY-Ig2"/>
-                            </connections>
                         </visualEffectView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7af-zC-aQ5" userLabel="PickerView">
                             <rect key="frame" x="0.0" y="896" width="414" height="302"/>
@@ -180,7 +177,7 @@
                                         <barButtonItem style="plain" systemItem="flexibleSpace" id="S10-DD-33n"/>
                                         <barButtonItem style="done" systemItem="done" id="re1-Yg-rgH">
                                             <connections>
-                                                <action selector="donePriority" destination="-1" id="H35-3H-bM4"/>
+                                                <action selector="hidePriorityView" destination="-1" id="7p3-uu-7EF"/>
                                             </connections>
                                         </barButtonItem>
                                     </items>
@@ -222,6 +219,9 @@
                         <constraint firstItem="KA4-vi-kYD" firstAttribute="leading" secondItem="43V-pN-Ars" secondAttribute="leading" id="oMz-V6-lNa"/>
                         <constraint firstAttribute="bottom" secondItem="7af-zC-aQ5" secondAttribute="top" id="s1p-cl-Lsf"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="yTq-Tz-wJm" appends="YES" id="y2N-k0-Xm8"/>
+                    </connections>
                 </view>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -251,7 +251,7 @@
         </view>
         <tapGestureRecognizer id="IRS-ZQ-HeO">
             <connections>
-                <action selector="selectPriority" destination="-1" id="J8A-uH-zeK"/>
+                <action selector="showPriorityView" destination="-1" id="FHW-eK-836"/>
             </connections>
         </tapGestureRecognizer>
         <panGestureRecognizer minimumNumberOfTouches="1" id="yTq-Tz-wJm">

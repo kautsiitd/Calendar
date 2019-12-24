@@ -14,9 +14,10 @@ class TaskViewController: UIViewController {
     
     //MARK: Properties
     private let context = CoreDataStack.shared.persistentContainer.viewContext
-    private var delegate: TodoProtocol?
+    private var delegate: TodoProtocol
     private var date: Date
-    private var todo: Todo?
+    private var todo: Todo
+    private var isUpdating: Bool
     
     //MARK: Elements
     @IBOutlet private weak var dateLabel: UILabel!
@@ -28,15 +29,19 @@ class TaskViewController: UIViewController {
     @IBOutlet private weak var deleteButton: UIButton!
     @IBOutlet private weak var priorityView: UIView!
     @IBOutlet private weak var priorityBlurView: UIVisualEffectView!
-    @IBOutlet private weak var pickerView: UIView!
+    @IBOutlet private weak var pickerViewWithToolBar: UIView!
+    @IBOutlet private weak var pickerView: UIPickerView!
     
     //MARK: Constraints
     @IBOutlet private weak var pickerViewBottomConstraint: NSLayoutConstraint!
     
-    init(delegate: TodoProtocol?, date: Date, todos: Todo?) {
+    init(delegate: TodoProtocol, date: Date, todos: Todo?) {
         self.delegate = delegate
         self.date = date
-        self.todo = todos
+        let context = self.context
+        self.todo = todos ?? Todo(entity: Todo.entity(), insertInto: context)
+        self.todo.date = date
+        isUpdating = todos != nil
         super.init(nibName: "\(TaskViewController.self)", bundle: nil)
     }
     
@@ -46,35 +51,34 @@ class TaskViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setLayouts()
+        presentationController?.delegate = self
+        setLayers()
         setData()
     }
     
-    private func setLayouts() {
+    private func setLayers() {
         priorityLabelColorView.layer.cornerRadius = 3
         saveButton.layer.cornerRadius = 5
         deleteButton.layer.cornerRadius = 5
-        deleteButton.isHidden = (todo == nil)
+        deleteButton.isHidden = !isUpdating
         priorityView.isHidden = true
     }
     
     private func setData() {
         dateLabel.text = date.convertTo(string: "MMM d, yyyy")
-        priorityLabel.text = todo?.priority.getTitle() ?? Priority.getTitle(.interview)()
-        priorityLabelColorView.backgroundColor = todo?.priority.getColor() ?? Priority.getColor(.interview)()
-        titleField.text = todo?.title ?? ""
-        guard let comment = todo?.comments,
-            comment != "" else {
-                commentsField.text = "Comments"
-                commentsField.textColor = UIColor.lightGray
-                return
-        }
+        priorityLabel.text = todo.priority.getTitle()
+        priorityLabelColorView.backgroundColor = todo.priority.getColor()
+        titleField.text = todo.title
+        let comment = todo.comments.isEmpty ? "Comments" : todo.comments
         commentsField.text = comment
-        commentsField.textColor = UIColor.black
+        commentsField.textColor = todo.comments.isEmpty ? .lightGray : .black
+        pickerView.selectRow(todo.priority.rawValue, inComponent: 0, animated: false)
     }
     
-    deinit {
-        view.endEditing(true)
+    private func dismissIt() {
+        DispatchQueue.main.async { [unowned self] in
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 }
 
@@ -84,20 +88,22 @@ extension TaskViewController {
         guard let view = recognizer.view else {
             return
         }
-        //Finding If finger movement was enough to hide as actionRatio reaches 1
+        //Finding If finger movement was enough to hide PriorityView as actionRatio reaches 1
         let ytransition = recognizer.translation(in: view).y
         let actionRatio = 1 - max(0,ytransition)/200
         priorityBlurView.alpha = 0.9*actionRatio
-        pickerViewBottomConstraint.constant = actionRatio*pickerView.frame.height
+        pickerViewBottomConstraint.constant = actionRatio*pickerViewWithToolBar.frame.height
         //Doing Spring action to back to original if actionRatio is greater than 0.6
         if recognizer.state == .ended {
-            _ = actionRatio > 0.6 ? selectPriority() : donePriority()
+            _ = actionRatio > 0.6 ? showPriorityView() : hidePriorityView()
         }
     }
     
-    @IBAction private func selectPriority() {
+    @IBAction private func showPriorityView() {
+        view.endEditing(true)
+        isModalInPresentation = true
         priorityView.isHidden = false
-        pickerViewBottomConstraint.constant = pickerView.frame.height
+        pickerViewBottomConstraint.constant = pickerViewWithToolBar.frame.height
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut,
                        animations: { [weak self] in
                         self?.view.layoutIfNeeded()
@@ -105,66 +111,32 @@ extension TaskViewController {
             }, completion: nil)
     }
     
-    @IBAction private func donePriority() {
+    @IBAction private func hidePriorityView() {
         pickerViewBottomConstraint.constant = 0
         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut,
                        animations: { [weak self] in
                         self?.view.layoutIfNeeded()
                         self?.priorityBlurView.alpha = 0
-            }, completion: { [weak self] _ in
-                self?.priorityView.isHidden = true
+            }, completion: { [unowned self] _ in
+                self.priorityView.isHidden = true
+                self.isModalInPresentation = self.context.hasChanges
         })
     }
     
     @IBAction private func saveData() {
         authenticateUser { [unowned self] in
-            //Checking if it's new todo then create and insert it in context
-            guard let todo = self.todo else {
-                let object = Todo(entity: Todo.entity(),
-                                  insertInto: self.context)
-                DispatchQueue.main.async { [unowned self] in
-                    self.save(todo: object)
-                }
-                return
-            }
-            
-            //If old todo exists then no need to create new one and insert,
-            //just update & save uncomitted
-            guard let object = self.context.object(with: todo.objectID) as? Todo else {
-                DispatchQueue.main.async { [unowned self] in
-                    self.dismiss(animated: true, completion: nil)
-                }
-                return
-            }
-            DispatchQueue.main.async { [unowned self] in
-                self.save(todo: object)
-            }
+            Todos.shared.saveTodosIn(context: self.context)
+            self.delegate.added(todo: self.todo)
+            self.dismissIt()
         }
-    }
-    
-    private func save(todo: Todo) {
-        todo.date = self.date
-        let priorityTitle = self.priorityLabel.text ?? Priority.getTitle(.interview)()
-        todo.priority = Priority.getPriorityFrom(title: priorityTitle)
-        todo.title = self.titleField.text ?? ""
-        todo.comments = self.commentsField.textColor == UIColor.black ? self.commentsField.text : ""
-        CoreDataStack.shared.save(context: self.context)
-        self.delegate?.added(todo: todo)
-        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction private func deleteData() {
-        guard let todo = todo else {
-            return
-        }
         authenticateUser { [unowned self] in
-            self.context.delete(todo)
-            CoreDataStack.shared.save(context: self.context)
-            self.delegate?.delete(todo: todo)
-            DispatchQueue.main.async { [unowned self] in
-                self.dismiss(animated: true,
-                completion: nil)
-            }
+            self.context.delete(self.todo)
+            Todos.shared.saveTodosIn(context: self.context)
+            self.delegate.delete(todo: self.todo)
+            self.dismissIt()
         }
     }
 }
@@ -185,14 +157,24 @@ extension TaskViewController {
 //MARK: UITextFieldDelegate
 extension TaskViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
+        view.endEditing(true)
         return false
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        pullToDismiss(isEnable: false)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        pullToDismiss(isEnable: true)
+        todo.title = textField.text ?? ""
     }
 }
 
 //MARK: UITextViewDelegate
 extension TaskViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
+        pullToDismiss(isEnable: false)
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
@@ -200,6 +182,8 @@ extension TaskViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        pullToDismiss(isEnable: true)
+        todo.comments = textView.text
         if textView.text.isEmpty {
             textView.text = "Comments"
             textView.textColor = UIColor.lightGray
@@ -221,11 +205,52 @@ extension TaskViewController: UIPickerViewDataSource {
 //MARK: UIPickerViewDelegate
 extension TaskViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return Priority.getTitle(Priority(rawValue: row)!)()
+        let priority = Priority(rawValue: row)!
+        return priority.getTitle()
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        priorityLabel.text = Priority.getTitle(Priority(rawValue: row)!)()
-        priorityLabelColorView.backgroundColor = Priority.getColor(Priority(rawValue: row)!)()
+        let priority = Priority(rawValue: row)!
+        priorityLabel.text = priority.getTitle()
+        priorityLabelColorView.backgroundColor = priority.getColor()
+        todo.priority = priority
+    }
+}
+
+extension TaskViewController: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+        //FIXME: Better way to handle PickerView pullToDismiss, asked on StackOverFlow
+        if !priorityView.isHidden { return }
+        if context.hasChanges {
+            showActionSheet()
+        }
+    }
+    
+    private func showActionSheet() {
+        let saveAction = UIAlertAction(title: "Save Changes",
+                                       style: .default,
+                                       handler: { [weak self] _ in
+                                        self?.saveData()
+        })
+        let discardAction = UIAlertAction(title: "Discard Changes",
+                                          style: .default,
+                                          handler: { [weak self] _ in
+                                            self?.context.rollback()
+                                            self?.dismissIt()
+        })
+        let cancelAction = UIAlertAction(title: "Cancel",
+                                          style: .cancel,
+                                          handler: nil)
+        
+        let actionSheet = UIAlertController(title: nil, message: nil,
+                                            preferredStyle: .actionSheet)
+        actionSheet.addAction(saveAction)
+        actionSheet.addAction(discardAction)
+        actionSheet.addAction(cancelAction)
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
+        return !context.hasChanges
     }
 }

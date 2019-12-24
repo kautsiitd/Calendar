@@ -13,7 +13,7 @@ import CoreData
 @objc enum Priority: Int, CaseIterable {
     case interview, coding, shopping, birthday, holiday
     
-    static func getPriorityFrom(title: String) -> Priority {
+    static func getPriorityFrom(title: String?) -> Priority {
         switch title {
         case "Interview":
             return Priority(rawValue: 0)!
