@@ -10,9 +10,6 @@ import Foundation
 import UIKit
 
 class CalendarCollectionViewCell: UICollectionViewCell {
-    
-    var date: Date?
-	
 	// MARK: Elements
 	@IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var priorityView: UIView!
@@ -44,7 +41,6 @@ class CalendarCollectionViewCell: UICollectionViewCell {
 	}
 	
     func setCell(date: Date, todo: Todo?) {
-        self.date = date
         dateLabel.text = "\(date.get(component: .day))"
         if date.isWeekend() {
 			dateLabel.textColor = weekendDateColor

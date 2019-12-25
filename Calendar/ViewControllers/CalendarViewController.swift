@@ -2,113 +2,201 @@
 //  CalendarViewController.swift
 //  Calendar
 //
-//  Created by Kautsya Kanu on 15/11/17.
-//  Copyright © 2017 Kautsya Kanu. All rights reserved.
+//  Created by Kautsya Kanu on 25/12/19.
+//  Copyright © 2019 Kautsya Kanu. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class CalendarViewController: UITableViewController {
-	
-	// MARK: Constants
-	var numberOfMonths: Int = 6
-	
-	// MARK: Variables
-	var currentDateObject: Date
-	var calendar: Calendar
-	var monthWiseDates: [[Date]]
-	var rowsForMonth: [Int]
-    var todos: [String: Todo] = [:]
-	
-	// MARK: Init
-	required init?(coder aDecoder: NSCoder) {
-		currentDateObject = Date()
-		calendar = Calendar.current
-		
-		var midDate = currentDateObject
-		while Calendar.current.component(.day, from: midDate) != 1 {
-			midDate = calendar.date(byAdding: .day, value: -1, to: midDate)!
-		}
-		monthWiseDates = []
-		rowsForMonth = []
-		var monthCount = 0
-		while monthCount < numberOfMonths {
-			var tempMonthDates: [Date] = []
-			let monthStartDate = midDate
-			let currentMonth = calendar.dateComponents([.month], from: monthStartDate)
-			while calendar.dateComponents([.month], from: midDate) == currentMonth {
-				tempMonthDates.append(midDate)
-				midDate = calendar.date(byAdding: .day, value: 1, to: midDate)!
-			}
-			monthWiseDates.append(tempMonthDates)
-			
-			let numberOfDates = tempMonthDates.count
-			let offset = calendar.dateComponents([.weekday], from: monthStartDate).weekday! - 1
-			if (numberOfDates+offset)%7 == 0 {
-    			self.rowsForMonth.append((numberOfDates+offset)/7)
-			}
-			else {
-				self.rowsForMonth.append((numberOfDates+offset)/7 + 1)
-			}
-			monthCount += 1
-		}
+class CalendarViewController: UIViewController {
+    //MARK: Constants
+    private let calendar = Calendar.current
+    private let startYear = 2010
+    private let endYear = 2030
+    
+    //MARK: Properties
+    private var todos: [String: Todo]
+    private var cellHeight: CGFloat = 50
+    private var cellWidth: CGFloat!
+    private var isFirstLayout: Bool = true
+    
+    //MARK: Variables
+    private let numberOfSections: Int
+    private var firstDateOfSection: [Date?]
+    private var lastDateOfSection: [Date?]
+    private var currentDateAt: [[Date?]]
+    
+    //MARK: Elements
+    @IBOutlet private weak var collectionView: UICollectionView!
+
+    required init?(coder: NSCoder) {
+        numberOfSections = (endYear-startYear)*12
+        firstDateOfSection = [Date?](repeating: nil, count: numberOfSections)
+        lastDateOfSection = [Date?](repeating: nil, count: numberOfSections)
         
-		super.init(coder: aDecoder)
-	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-        tableView.rowHeight = UITableView.automaticDimension
+        let maxItemsInMonth = 42        //As max number of weeks in month is 6 so 6*7=42
+        let nilItemsInMonth = [Date?](repeating: nil, count: maxItemsInMonth)
+        currentDateAt = [[Date?]](repeating: nilItemsInMonth, count: numberOfSections)
+        
         todos = Todos.shared.getTodosDictWith(key: .date)
-	}
+        super.init(coder: coder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        cellWidth = collectionView.frame.width/7
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if isFirstLayout {
+            isFirstLayout = false
+            let indexPath = indexPathOf(date: Date())
+            collectionView.scrollToItem(at: indexPath, at: .top, animated: false)
+        }
+    }
 }
 
-//MARK: TableView
 extension CalendarViewController {
-	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return numberOfMonths
-	}
-	
-	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "\(CalendarTableViewCell.self)", for: indexPath) as! CalendarTableViewCell
-        cell.delegate = self
-        cell.setCell(todos: self.todos,
-                     datesOfMonth: self.monthWiseDates[indexPath.row],
-                     numberOfRows: self.rowsForMonth[indexPath.row])
-		return cell
-	}
-	
-	override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 9+10+30+35+CGFloat(rowsForMonth[indexPath.row]*50)+10+9
-	}
+    private func getFirstDateOf(section: Int) -> Date {
+        guard let firstDate = firstDateOfSection[section] else {
+            let year = startYear + section/12
+            let month = section%12 + 1
+            let components = DateComponents(calendar: calendar,
+                                            year: year, month: month)
+            firstDateOfSection[section] = calendar.date(from: components)!
+            return firstDateOfSection[section]!
+        }
+        return firstDate
+    }
+    
+    private func getLastDateOf(section: Int) -> Date {
+        guard let lastDate = lastDateOfSection[section] else {
+            let firstDate = getFirstDateOf(section: section)
+            let components = DateComponents(calendar: calendar, month: 1, day: -1)
+            lastDateOfSection[section] = calendar.date(byAdding: components, to: firstDate)!
+            return lastDateOfSection[section]!
+        }
+        return lastDate
+    }
+    
+    private func getCurrentDateOf(indexPath: IndexPath) -> Date? {
+        guard let currentDate = currentDateAt[indexPath.section][indexPath.item] else {
+            let firstDate = getFirstDateOf(section: indexPath.section)
+            let lastDate = getLastDateOf(section: indexPath.section)
+            let itemNumber = indexPath.item + 1
+            let dateNumber = itemNumber - firstDate.get(component: .weekday) + 1
+
+            if dateNumber < 1 || dateNumber > lastDate.get(component: .day) {
+                return nil
+            }
+
+            let components = DateComponents(calendar: calendar, day: dateNumber-1)
+            currentDateAt[indexPath.section][indexPath.row] = calendar.date(byAdding: components, to: firstDate)
+            return currentDateAt[indexPath.section][indexPath.row]
+        }
+        return currentDate
+    }
+    
+    private func numberOfWeeksIn(section: Int) -> Int {
+        let firstDate = getFirstDateOf(section: section)
+        return firstDate.numberOfWeeks()
+    }
 }
 
-//MARK: CalendarCellProtocol
-extension CalendarViewController: CalendarCellProtocol {
-    func openTaskFor(date: Date) {
-        let taskViewController = TaskViewController(delegate: self,
-                                                    date: date,
-                                                    todos: todos[date.uniqueId()])
+//MARK: UICollectionViewDataSource
+extension CalendarViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return numberOfSections
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let daysInWeek = 7
+        return numberOfWeeksIn(section: section)*daysInWeek
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "\(CalendarMonthHeaderView.self)", for: indexPath) as? CalendarMonthHeaderView else {
+                return UICollectionReusableView()
+            }
+            DispatchQueue.main.async { [unowned self] in
+                let date = self.getFirstDateOf(section: indexPath.section)
+                headerView.setView(date: date)
+            }
+            return headerView
+        default:
+            return UICollectionReusableView()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let identifier = "\(CalendarCollectionViewCell.self)"
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath) as? CalendarCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        guard let currentDate = getCurrentDateOf(indexPath: indexPath) else {
+            return cell
+        }
+        DispatchQueue.main.async { [unowned self] in
+            let todo = self.todos[currentDate.uniqueId()]
+            cell.setCell(date: currentDate, todo: todo)
+        }
+        return cell
+    }
+}
+
+//MARK: UICollectionViewDelegate
+extension CalendarViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let date = getCurrentDateOf(indexPath: indexPath) else {
+            return
+        }
+        let todo = todos[date.uniqueId()]
+        let taskViewController = TaskViewController(delegate: self, date: date, todos: todo)
         present(taskViewController, animated: true, completion: nil)
+    }
+}
+
+extension CalendarViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: cellWidth, height: cellHeight)
     }
 }
 
 //MARK: TodoProtocol
 extension CalendarViewController: TodoProtocol {
     func added(todo: Todo) {
-        //TODO: Canbe Improved
+        //FIXME: Use Info of Added and Delete
         todos = Todos.shared.getTodosDictWith(key: .date)
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-        }
+        reload(date: todo.date)
     }
     
     func delete(todo: Todo) {
-        //TODO: Canbe Improved
+        //FIXME: Use Info of Added and Delete
         todos = Todos.shared.getTodosDictWith(key: .date)
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
+        reload(date: todo.date)
+    }
+    
+    private func reload(date: Date) {
+        DispatchQueue.main.async { [unowned self] in
+            let indexPath = self.indexPathOf(date: date)
+            self.collectionView.reloadItems(at: [indexPath])
         }
+    }
+    
+    private func indexPathOf(date: Date) -> IndexPath {
+        //As Dec 2019 is One section in CollectionView
+        let month = date.get(component: .month)
+        let year = date.get(component: .year)
+        let section = (year-startYear)*12 + (month-1)
+        //If 1Dec 2019 is Tuesday then, itemNumbr is 2(0,1,2,..)
+        let firstDate = date.firstDateOfMonth()
+        let offset = firstDate.get(component: .weekday) - 1
+        let itemNumber = offset + (date.get(component: .day)-1)
+        return IndexPath(item: itemNumber, section: section)
     }
 }

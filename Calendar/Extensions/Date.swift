@@ -13,6 +13,15 @@ extension Date {
         return Calendar.current.component(component, from: self)
     }
     
+    func numberOfWeeks() -> Int {
+        return Calendar.current.range(of: .weekOfMonth, in: .month, for: self)!.upperBound - 1
+    }
+    
+    func firstDateOfMonth() -> Date {
+        let components = Calendar.current.dateComponents([.month, .year], from: self)
+        return Calendar.current.date(from: components)!
+    }
+    
     func isWeekend() -> Bool {
         let weekday = get(component: .weekday)
         return (weekday == 1 || weekday == 7)
