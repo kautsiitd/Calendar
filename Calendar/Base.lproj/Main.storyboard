@@ -300,7 +300,13 @@
                             <constraint firstItem="l1l-Yf-zTp" firstAttribute="top" secondItem="a5i-Tq-Tv6" secondAttribute="bottom" id="ktW-R1-cFl"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Todos" id="W1M-Eg-sfR"/>
+                    <navigationItem key="navigationItem" title="Todos" id="W1M-Eg-sfR">
+                        <barButtonItem key="rightBarButtonItem" image="line.horizontal.3.decrease" catalog="system" id="6Yr-DE-NDY">
+                            <connections>
+                                <action selector="showFilters" destination="xtd-Ou-zVT" id="1Df-4H-mmb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="noDataLabel" destination="ihV-5Q-1FB" id="eeY-HT-7xw"/>
                         <outlet property="tableView" destination="l1l-Yf-zTp" id="P4x-kT-Ygz"/>
@@ -311,4 +317,7 @@
             <point key="canvasLocation" x="519" y="-573"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="line.horizontal.3.decrease" catalog="system" width="64" height="36"/>
+    </resources>
 </document>

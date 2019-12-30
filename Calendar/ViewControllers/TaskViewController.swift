@@ -246,17 +246,12 @@ extension TaskViewController: UIAdaptivePresentationControllerDelegate {
     }
     
     private func showActionSheet() {
-        let saveAction = UIAlertAction(title: "Save Changes",
-                                       style: .default,
-                                       handler: { _ in self.saveData() })
-        let discardAction = UIAlertAction(title: "Discard Changes",
-                                          style: .default,
-                                          handler: { _ in
-                                            self.dismissIt()
+        let saveAction = UIAlertAction(title: "Save Changes", style: .default, handler: { _ in
+            self.saveData() })
+        let discardAction = UIAlertAction(title: "Discard Changes", style: .default, handler: { _ in
+            self.dismissIt()
         })
-        let cancelAction = UIAlertAction(title: "Cancel",
-                                          style: .cancel,
-                                          handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         let actionSheet = UIAlertController(title: nil, message: nil,
                                             preferredStyle: .actionSheet)

@@ -9,8 +9,28 @@
 import UIKit
 import CoreData
 
+enum SortType {
+    case date, title, priority
+    
+    func getRequest() -> NSFetchRequest<Todo> {
+        let request = Todo.fetchAllRequest()
+        let sort: NSSortDescriptor
+        switch self {
+        case .date:
+            sort = NSSortDescriptor(key: #keyPath(Todo.date), ascending: true)
+        case .title:
+            sort = NSSortDescriptor(key: #keyPath(Todo.title), ascending: true)
+        case .priority:
+            sort = NSSortDescriptor(key: #keyPath(Todo.priority), ascending: true)
+        }
+        request.sortDescriptors = [sort]
+        return request
+    }
+}
+
 class TodosViewController: UIViewController {
     //MARK: Properties
+    private let context = CoreDataStack.shared.persistentContainer.viewContext
     private var fetchedRC: NSFetchedResultsController<Todo>!
     //MARK: Elements
     @IBOutlet private weak var tableView: UITableView!
@@ -18,8 +38,14 @@ class TodosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchTodos()
+        setupTableView()
+        fetchSortTodos(for: .date)
         noDataLabel.isHidden = !(fetchedRC.fetchedObjects?.isEmpty ?? true)
+    }
+    
+    private func setupTableView() {
+        //FIXME: Try to use automaticDimension for reload
+        tableView.rowHeight = 87
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -27,11 +53,8 @@ class TodosViewController: UIViewController {
         navigationController?.setToolbarHidden(true, animated: true)
     }
     
-    private func fetchTodos() {
-        let context = CoreDataStack.shared.persistentContainer.viewContext
-        let request = Todo.fetchAllRequest()
-        let dateSort = NSSortDescriptor(key: #keyPath(Todo.date), ascending: true)
-        request.sortDescriptors = [dateSort]
+    private func fetchSortTodos(for sort: SortType) {
+        let request = sort.getRequest()
         fetchedRC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         do {
             try fetchedRC.performFetch()
@@ -41,6 +64,7 @@ class TodosViewController: UIViewController {
     }
 }
 
+//MARK: UITableViewDataSource
 extension TodosViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedRC.fetchedObjects?.count ?? 0
@@ -53,5 +77,37 @@ extension TodosViewController: UITableViewDataSource {
             cell.setCell(todo: todo)
         }
         return cell
+    }
+}
+
+//MARK: IBActions
+extension TodosViewController {
+    @IBAction private func showFilters() {
+        let dateSort = UIAlertAction(title: "Date", style: .default, handler: { _ in
+            self.applySort(of: .date)
+        })
+        let titleSort = UIAlertAction(title: "Title", style: .default, handler: { _ in
+            self.applySort(of: .title)
+        })
+        let prioritySort = UIAlertAction(title: "Priority", style: .default, handler: { _ in
+            self.applySort(of: .priority)
+        })
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        let actionSheet = UIAlertController(title: nil, message: nil,
+                                            preferredStyle: .actionSheet)
+        actionSheet.addAction(dateSort)
+        actionSheet.addAction(titleSort)
+        actionSheet.addAction(prioritySort)
+        actionSheet.addAction(cancel)
+        actionSheet.pruneNegativeWidthConstraints()
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func applySort(of type: SortType) {
+        fetchSortTodos(for: type)
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
