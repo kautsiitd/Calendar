@@ -17,7 +17,11 @@ protocol TaskVCProtocol {
 class TaskViewController: UIViewController {
     
     //MARK: Properties
-    private var context = CoreDataStack.shared.persistentContainer.viewContext
+    private var context: NSManagedObjectContext = {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = CoreDataStack.shared.persistentContainer.viewContext
+        return context
+    }()
     private var delegate: TaskVCProtocol
     private var date: Date
     
@@ -87,10 +91,6 @@ class TaskViewController: UIViewController {
         commentsField.text = comment
         commentsField.textColor = todo.comments.isEmpty ? .lightGray : .black
         pickerView.selectRow(todo.priority.rawValue, inComponent: 0, animated: false)
-    }
-    
-    deinit {
-        context.rollback()
     }
 }
 
@@ -252,7 +252,6 @@ extension TaskViewController: UIAdaptivePresentationControllerDelegate {
         let discardAction = UIAlertAction(title: "Discard Changes",
                                           style: .default,
                                           handler: { _ in
-                                            self.context.rollback()
                                             self.dismissIt()
         })
         let cancelAction = UIAlertAction(title: "Cancel",
