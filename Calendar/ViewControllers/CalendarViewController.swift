@@ -46,6 +46,11 @@ class CalendarViewController: UIViewController {
         cellWidth = collectionView.frame.width/7
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setToolbarHidden(false, animated: true)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if isFirstLayout {

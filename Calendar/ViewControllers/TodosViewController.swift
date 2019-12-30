@@ -22,6 +22,11 @@ class TodosViewController: UIViewController {
         noDataLabel.isHidden = !(fetchedRC.fetchedObjects?.isEmpty ?? true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
     private func fetchTodos() {
         let context = CoreDataStack.shared.persistentContainer.viewContext
         let request = Todo.fetchAllRequest()
