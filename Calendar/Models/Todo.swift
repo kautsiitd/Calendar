@@ -45,11 +45,6 @@ import CoreData
     }
 }
 
-protocol TodoProtocol {
-    func added(todo: Todo)
-    func delete(todo: Todo)
-}
-
 class Todo: NSManagedObject {
     //MARK: Properties
     @NSManaged var date: Date
@@ -57,7 +52,7 @@ class Todo: NSManagedObject {
     @NSManaged var comments: String
     @NSManaged var priority: Priority
     
-    @nonobjc class func fetchRequest() -> NSFetchRequest<Todo> {
-        return NSFetchRequest<Todo>(entityName: "Todo")
+    @nonobjc class func fetchAllRequest() -> NSFetchRequest<Todo> {
+        return NSFetchRequest<Todo>(entityName: "\(Todo.self)")
     }
 }
