@@ -16,7 +16,6 @@ class CalendarViewController: UIViewController {
     private let endYear = 2030
     
     //MARK: Properties
-    private var todos: [String: Todo]
     private var cellHeight: CGFloat = 50
     private var cellWidth: CGFloat!
     private var isFirstLayout: Bool = true
@@ -39,7 +38,6 @@ class CalendarViewController: UIViewController {
         let nilItemsInMonth = [Date?](repeating: nil, count: maxItemsInMonth)
         currentDateAt = [[Date?]](repeating: nilItemsInMonth, count: numberOfSections)
         
-        todos = Todos.shared.getTodosDictWith(key: .date)
         super.init(coder: coder)
     }
     
@@ -123,8 +121,8 @@ extension CalendarViewController: UICollectionViewDataSource {
             guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "\(CalendarMonthHeaderView.self)", for: indexPath) as? CalendarMonthHeaderView else {
                 return UICollectionReusableView()
             }
-            DispatchQueue.main.async { [unowned self] in
-                let date = self.getFirstDateOf(section: indexPath.section)
+            DispatchQueue.main.async { [weak self] in
+                let date = self?.getFirstDateOf(section: indexPath.section)
                 headerView.setView(date: date)
             }
             return headerView
@@ -141,10 +139,7 @@ extension CalendarViewController: UICollectionViewDataSource {
         guard let currentDate = getCurrentDateOf(indexPath: indexPath) else {
             return cell
         }
-        DispatchQueue.main.async { [unowned self] in
-            let todo = self.todos[currentDate.uniqueId()]
-            cell.setCell(date: currentDate, todo: todo)
-        }
+        cell.setCell(date: currentDate)
         return cell
     }
 }
@@ -155,8 +150,7 @@ extension CalendarViewController: UICollectionViewDelegate {
         guard let date = getCurrentDateOf(indexPath: indexPath) else {
             return
         }
-        let todo = todos[date.uniqueId()]
-        let taskViewController = TaskViewController(delegate: self, date: date, todos: todo)
+        let taskViewController = TaskViewController(delegate: self, date: date)
         present(taskViewController, animated: true, completion: nil)
     }
 }
@@ -168,23 +162,11 @@ extension CalendarViewController: UICollectionViewDelegateFlowLayout {
 }
 
 //MARK: TodoProtocol
-extension CalendarViewController: TodoProtocol {
-    func added(todo: Todo) {
-        //FIXME: Use Info of Added and Delete
-        todos = Todos.shared.getTodosDictWith(key: .date)
-        reload(date: todo.date)
-    }
-    
-    func delete(todo: Todo) {
-        //FIXME: Use Info of Added and Delete
-        todos = Todos.shared.getTodosDictWith(key: .date)
-        reload(date: todo.date)
-    }
-    
-    private func reload(date: Date) {
-        DispatchQueue.main.async { [unowned self] in
-            let indexPath = self.indexPathOf(date: date)
-            self.collectionView.reloadItems(at: [indexPath])
+extension CalendarViewController: TaskVCProtocol {
+    func update(date: Date) {
+        DispatchQueue.main.async { [weak self] in
+            guard let indexPath = self?.indexPathOf(date: date) else { return }
+            self?.collectionView.reloadItems(at: [indexPath])
         }
     }
     

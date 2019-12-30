@@ -10,14 +10,21 @@ import UIKit
 import CoreData
 import LocalAuthentication
 
+protocol TaskVCProtocol {
+    func update(date: Date)
+}
+
 class TaskViewController: UIViewController {
     
     //MARK: Properties
-    private let context = CoreDataStack.shared.persistentContainer.viewContext
-    private var delegate: TodoProtocol
+    private var context = CoreDataStack.shared.persistentContainer.viewContext
+    private var delegate: TaskVCProtocol
     private var date: Date
-    private var todo: Todo
-    private var isUpdating: Bool
+    
+    //MARK: Variables
+    private var todo: Todo!
+    private var isNew: Bool = true
+    private var hasChanges: Bool = false
     
     //MARK: Elements
     @IBOutlet private weak var dateLabel: UILabel!
@@ -35,13 +42,9 @@ class TaskViewController: UIViewController {
     //MARK: Constraints
     @IBOutlet private weak var pickerViewBottomConstraint: NSLayoutConstraint!
     
-    init(delegate: TodoProtocol, date: Date, todos: Todo?) {
+    init(delegate: TaskVCProtocol, date: Date) {
         self.delegate = delegate
         self.date = date
-        let context = self.context
-        self.todo = todos ?? Todo(entity: Todo.entity(), insertInto: context)
-        self.todo.date = date
-        isUpdating = todos != nil
         super.init(nibName: "\(TaskViewController.self)", bundle: nil)
     }
     
@@ -52,15 +55,26 @@ class TaskViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presentationController?.delegate = self
+        fetchTodo()
         setLayers()
         setData()
+    }
+    
+    private func fetchTodo() {
+        let request = Todo.fetchAllRequest()
+        let predicate = NSPredicate(format: "date == %@", date as NSDate)
+        request.predicate = predicate
+        let todos = try? context.fetch(request)
+        isNew = todos?.isEmpty ?? true
+        todo = todos?.first ?? Todo(context: context)
+        todo.date = date
     }
     
     private func setLayers() {
         priorityLabelColorView.layer.cornerRadius = 3
         saveButton.layer.cornerRadius = 5
         deleteButton.layer.cornerRadius = 5
-        deleteButton.isHidden = !isUpdating
+        deleteButton.isHidden = isNew
         priorityView.isHidden = true
     }
     
@@ -75,10 +89,8 @@ class TaskViewController: UIViewController {
         pickerView.selectRow(todo.priority.rawValue, inComponent: 0, animated: false)
     }
     
-    private func dismissIt() {
-        DispatchQueue.main.async { [unowned self] in
-            self.dismiss(animated: true, completion: nil)
-        }
+    deinit {
+        context.rollback()
     }
 }
 
@@ -117,26 +129,32 @@ extension TaskViewController {
                        animations: { [weak self] in
                         self?.view.layoutIfNeeded()
                         self?.priorityBlurView.alpha = 0
-            }, completion: { [unowned self] _ in
+            }, completion: { _ in
                 self.priorityView.isHidden = true
-                self.isModalInPresentation = self.context.hasChanges
+                self.isModalInPresentation = self.hasChanges
         })
     }
     
     @IBAction private func saveData() {
-        authenticateUser { [unowned self] in
-            Todos.shared.saveTodosIn(context: self.context)
-            self.delegate.added(todo: self.todo)
+        authenticateUser {
+            try? self.context.save()
+            self.delegate.update(date: self.date)
             self.dismissIt()
         }
     }
     
     @IBAction private func deleteData() {
-        authenticateUser { [unowned self] in
+        authenticateUser {
             self.context.delete(self.todo)
-            Todos.shared.saveTodosIn(context: self.context)
-            self.delegate.delete(todo: self.todo)
+            try? self.context.save()
+            self.delegate.update(date: self.date)
             self.dismissIt()
+        }
+    }
+    
+    private func dismissIt() {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -168,6 +186,7 @@ extension TaskViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         pullToDismiss(isEnable: true)
         todo.title = textField.text ?? ""
+        hasChanges = true
     }
 }
 
@@ -188,6 +207,7 @@ extension TaskViewController: UITextViewDelegate {
             textView.text = "Comments"
             textView.textColor = UIColor.lightGray
         }
+        hasChanges = true
     }
 }
 
@@ -214,6 +234,7 @@ extension TaskViewController: UIPickerViewDelegate {
         priorityLabel.text = priority.getTitle()
         priorityLabelColorView.backgroundColor = priority.getColor()
         todo.priority = priority
+        hasChanges = true
     }
 }
 
@@ -221,22 +242,18 @@ extension TaskViewController: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
         //FIXME: Better way to handle PickerView pullToDismiss, asked on StackOverFlow
         if !priorityView.isHidden { return }
-        if context.hasChanges {
-            showActionSheet()
-        }
+        if hasChanges { showActionSheet() }
     }
     
     private func showActionSheet() {
         let saveAction = UIAlertAction(title: "Save Changes",
                                        style: .default,
-                                       handler: { [weak self] _ in
-                                        self?.saveData()
-        })
+                                       handler: { _ in self.saveData() })
         let discardAction = UIAlertAction(title: "Discard Changes",
                                           style: .default,
-                                          handler: { [weak self] _ in
-                                            self?.context.rollback()
-                                            self?.dismissIt()
+                                          handler: { _ in
+                                            self.context.rollback()
+                                            self.dismissIt()
         })
         let cancelAction = UIAlertAction(title: "Cancel",
                                           style: .cancel,
@@ -247,10 +264,11 @@ extension TaskViewController: UIAdaptivePresentationControllerDelegate {
         actionSheet.addAction(saveAction)
         actionSheet.addAction(discardAction)
         actionSheet.addAction(cancelAction)
+        actionSheet.pruneNegativeWidthConstraints()
         present(actionSheet, animated: true, completion: nil)
     }
     
     func presentationControllerShouldDismiss(_ presentationController: UIPresentationController) -> Bool {
-        return !context.hasChanges
+        return !hasChanges
     }
 }

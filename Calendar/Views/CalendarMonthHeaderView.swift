@@ -17,7 +17,7 @@ class CalendarMonthHeaderView: UICollectionReusableView {
         monthYearLabel.text = ""
     }
     
-    func setView(date: Date) {
-        monthYearLabel.text = date.convertTo(string: "MMM YYYY")
+    func setView(date: Date?) {
+        monthYearLabel.text = date?.convertTo(string: "MMM YYYY") ?? ""
     }
 }
