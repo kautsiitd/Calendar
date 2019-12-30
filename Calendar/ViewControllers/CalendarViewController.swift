@@ -56,6 +56,14 @@ class CalendarViewController: UIViewController {
     }
 }
 
+//MARK: IBActions
+extension CalendarViewController {
+    @IBAction private func scrollToToday() {
+        let indexPath = indexPathOf(date: Date())
+        collectionView.scrollToItem(at: indexPath, at: .top, animated: true)
+    }
+}
+
 extension CalendarViewController {
     private func getFirstDateOf(section: Int) -> Date {
         guard let firstDate = firstDateOfSection[section] else {

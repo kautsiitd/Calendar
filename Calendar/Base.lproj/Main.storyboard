@@ -10,7 +10,7 @@
         <!--Navigation Controller-->
         <scene sceneID="rhf-GS-7Q7">
             <objects>
-                <navigationController id="1C2-A6-L3k" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="1C2-A6-L3k" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rSh-ex-8yC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -86,7 +86,7 @@
                                 </constraints>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="HYQ-HB-jS2">
-                                <rect key="frame" x="0.0" y="94" width="375" height="573"/>
+                                <rect key="frame" x="0.0" y="94" width="375" height="524"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="df5-iy-3g4">
                                     <size key="itemSize" width="50" height="50"/>
@@ -172,6 +172,14 @@
                             <constraint firstItem="HYQ-HB-jS2" firstAttribute="leading" secondItem="bYV-bV-C64" secondAttribute="leading" id="z23-XV-yt4"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Today" id="mk0-gj-aMm">
+                            <color key="tintColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="scrollToToday" destination="bnW-dJ-bwt" id="ngb-aS-8h3"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Calendar" id="FK5-ba-vIr">
                         <barButtonItem key="leftBarButtonItem" title="Todos" id="tgi-mj-uEW">
                             <connections>
@@ -179,6 +187,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="HYQ-HB-jS2" id="As9-ZQ-a3v"/>
                     </connections>
@@ -200,7 +209,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l1l-Yf-zTp">
-                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="TodosTableViewCell" rowHeight="133" id="36O-XC-E1d" customClass="TodosTableViewCell" customModule="Calendar" customModuleProvider="target">
